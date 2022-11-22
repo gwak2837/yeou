@@ -19,7 +19,7 @@ export default function Head() {
       <link rel="manifest" href="/site.webmanifest" />
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#f98c24" />
       <meta name="msapplication-TileColor" content="#da532c" />
-      <meta name="theme-color" content="#ffffff" />
+      <meta name="theme-color" content="#f98c24" />
 
       <link rel="shortcut icon" href="/images/shortcut-icon.png" />
       <link rel="canonical" href={CANONICAL_URL} />

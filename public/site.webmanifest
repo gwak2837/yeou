@@ -2,7 +2,7 @@
   "id": "https://coopang.vercel.app",
   "name": "새소식 - 쿠팡 알리미",
   "short_name": "새소식",
-  "theme_color": "#26ade3",
+  "theme_color": "#f98c24",
   "background_color": "#ffffff",
   "display": "fullscreen",
   "orientation": "portrait",
