@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "visualstudioexptteam.vscodeintellicode",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "tabnine.tabnine-vscode",
+    "bradlc.vscode-tailwindcss",
+    "csstools.postcss",
+    "amatiasq.sort-imports",
+    "arcanis.vscode-zipfs",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
+}

@@ -1,0 +1,95 @@
+@import '~sanitize.css';
+@import '~sanitize.css/forms.css';
+@import '~sanitize.css/typography.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, Bazier Square, Noto Sans KR, Segoe UI,
+    Apple SD Gothic Neo, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  /* font-family: 'Noto Sans KR', Roboto, system-ui, 'Malgun Gothic'; */
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+  word-break: keep-all;
+}
+
+@media (min-width: 768px) {
+  html,
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+h5 {
+  font-size: 0.9rem;
+}
+
+h6 {
+  font-size: 0.8rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+b {
+  font-weight: 600;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  :focus,
+  :hover {
+    text-decoration: underline;
+  }
+
+  color: inherit;
+  text-decoration: none;
+}
+
+textarea {
+  border: none;
+  line-height: 1.6rem;
+}

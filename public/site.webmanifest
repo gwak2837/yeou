@@ -1,0 +1,23 @@
+{
+  "id": "https://coopang.vercel.app",
+  "name": "새소식 - 쿠팡 알리미",
+  "short_name": "새소식",
+  "theme_color": "#26ade3",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
