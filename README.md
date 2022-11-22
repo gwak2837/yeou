@@ -31,10 +31,10 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  i18n: {
-    locales: ['ko-KR', 'en'],
-    defaultLocale: 'ko-KR',
-  },
+  // i18n: {
+  //   locales: ['ko-KR', 'en'],
+  //   defaultLocale: 'ko-KR',
+  // },
   images: {
     domains: ['storage.googleapis.com'],
   },
