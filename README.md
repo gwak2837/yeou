@@ -593,9 +593,35 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 ```
 
-###
+### Font
 
-구글 폰트
+You can optimally load web fonts with zero layout shift, thanks to the underlying CSS size-adjust property used.
+
+```
+yarn add @next/font
+```
+
+`src/app/layout.tsx` 파일을 아래와 같이 수정합니다. src엔 폰트 파일 경로를 입력합니다.
+
+가능한 확장자: `woff2`, `woff`, `ttf`, `otf`
+
+```
+...
+import localFont from '@next/font/local'
+
+const myFont = localFont({ src: './PretendardVariable.woff2' })
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="ko-KR" className={myFont.className}>
+      <head />
+      ...
+      <body className={myFont.className}>{children}</body>
+    </html>
+  )
+}
+```
+
 스플래시 이미지
 구글 애드센스
 react query

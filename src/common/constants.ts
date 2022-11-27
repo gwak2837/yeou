@@ -49,18 +49,10 @@ export const NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY = process.env
 // if (!NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY)
 //   throw new Error('`NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY` 환경 변수를 설정해주세요.')
 
-export const MOBILE_MIN_WIDTH = '320px'
-export const MOBILE_MIN_HEIGHT = '568px'
-export const TABLET_MIN_WIDTH_1 = '767px'
-export const TABLET_MIN_WIDTH = '768px'
-export const TABLET_MAX_WIDTH = '1366px'
-export const DESKTOP_MIN_WIDTH = '1440px'
-export const HD_DESKTOP_MIN_WIDTH = '1920px'
-
 export const APPLICATION_NAME = '새소식 - 쿠팡 알리미' // = site.webmanifest name
 export const APPLICATION_SHORT_NAME = '새소식' // = site.webmanifest short_name
 export const SUBJECT = '쿠팡 가격 변동 알리미'
-export const KEYWORDS = `${APPLICATION_SHORT_NAME}` // 최대 10개
+export const KEYWORDS = `${APPLICATION_SHORT_NAME},coopang,price,alert,쿠팡,가격,알리미` // 최대 10개
 export const AUTHOR = '곽태욱(Taeuk Gwak)'
 export const CANONICAL_URL =
   NEXT_PUBLIC_VERCEL_ENV === 'production'

@@ -6,13 +6,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --mobile-min-width: 320px;
+  --mobile-min-height: 568px;
+  --tablet-min-width_1: 767px;
+  --tablet-min-width: 768px;
+  --tablet-max-width: 1366px;
+  --desktop-min-width: 1440px;
+  --hd-desktop-min-width: 1920px;
+}
+
 html,
 body {
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, Bazier Square, Noto Sans KR, Segoe UI,
-    Apple SD Gothic Neo, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  /* font-family: 'Noto Sans KR', Roboto, system-ui, 'Malgun Gothic'; */
+  font-family: -apple-system, system-ui, Malgun Gothic, BlinkMacSystemFont, Bazier Square,
+    Noto Sans KR, Segoe UI, Apple SD Gothic Neo, Roboto, Helvetica Neue, Arial, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   padding: 0;
   margin: 0;
   line-height: normal;
@@ -34,15 +43,6 @@ body {
     color: white;
     background: black;
   }
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 600;
 }
 
 h3 {
@@ -69,10 +69,6 @@ h5,
 h6,
 p {
   margin: 0;
-}
-
-b {
-  font-weight: 600;
 }
 
 a {

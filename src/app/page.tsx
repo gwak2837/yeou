@@ -7,7 +7,7 @@ export default function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js 13!</a>
+          환영합니다 to <a href="https://nextjs.org">Next.js 13!</a>
         </h1>
 
         <p className="text-2xl leading-normal my-16 text-center z-50	">
@@ -45,7 +45,7 @@ export default function Home() {
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+            <Image src="/favicon.ico" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
