@@ -2197,7 +2197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:18.11.9":
+"@types/node@npm:*, @types/node@npm:^18.11.9":
   version: 18.11.9
   resolution: "@types/node@npm:18.11.9"
   checksum: cc0aae109e9b7adefc32eecb838d6fad931663bb06484b5e9cbbbf74865c721b03d16fd8d74ad90e31dbe093d956a7c2c306ba5429ba0c00f3f7505103d7a496
@@ -2234,7 +2234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:18.0.25":
+"@types/react@npm:*, @types/react@npm:^18.0.25":
   version: 18.0.25
   resolution: "@types/react@npm:18.0.25"
   dependencies:
@@ -3472,8 +3472,8 @@ __metadata:
     "@next/font": ^13.0.4
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
-    "@types/node": 18.11.9
-    "@types/react": 18.0.25
+    "@types/node": ^18.11.9
+    "@types/react": ^18.0.25
     "@types/react-dom": 18.0.9
     autoprefixer: ^10.4.13
     babel-loader: ^9.1.0
@@ -3487,6 +3487,7 @@ __metadata:
     husky: ^8.0.2
     jest: ^29.3.1
     jest-environment-jsdom: ^29.3.1
+    lru-cache: ^7.14.1
     next: 13.0.4
     next-pwa: ^5.6.0
     postcss: ^8.4.19
@@ -6718,7 +6719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.7.1":
+"lru-cache@npm:^7.14.1, lru-cache@npm:^7.7.1":
   version: 7.14.1
   resolution: "lru-cache@npm:7.14.1"
   checksum: d72c6713c6a6d86836a7a6523b3f1ac6764768cca47ec99341c3e76db06aacd4764620e5e2cda719a36848785a52a70e531822dc2b33fb071fa709683746c104
