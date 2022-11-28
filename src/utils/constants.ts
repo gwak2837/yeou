@@ -1,10 +1,14 @@
 export const NODE_ENV = process.env.NODE_ENV as string
+export const PROJECT_ENV = process.env.PROJECT_ENV as string
 export const NEXT_PUBLIC_PROJECT_ENV = process.env.NEXT_PUBLIC_PROJECT_ENV as string
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL as string
 export const NEXT_PUBLIC_VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string
 
 const NEXT_PUBLIC_VERCEL_URL = process.env.NEXT_PUBLIC_VERCEL_URL as string
 const NEXT_PUBLIC_VERCEL_ENV = process.env.NEXT_PUBLIC_VERCEL_ENV as string
+
+export const POSTGRES_CONNECTION_STRING = process.env.POSTGRES_CONNECTION_STRING as string
+export const POSTGRES_CA = process.env.POSTGRES_CA as string
 
 export const NEXT_PUBLIC_NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID as string
 

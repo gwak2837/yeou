@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
+import { pool } from '../../libs/postgres'
 import rateLimit from '../../utils/rate-limit'
 
 puppeteer.use(StealthPlugin())
@@ -70,4 +71,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     imageUrl: `https:${imageUrl}`,
     reviewCount,
   })
+
+  pool.query('')
 }

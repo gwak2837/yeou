@@ -1,4 +1,4 @@
-import { CANONICAL_URL } from '../common/constants'
+import { CANONICAL_URL } from '../utils/constants'
 
 export default function Head() {
   const title = '새소식'
@@ -12,7 +12,7 @@ export default function Head() {
       <meta property="og:description" content={description} />
       <meta property="og:image" content="/images/og-image.webp" />
       <meta property="og:image:alt" content="/images/og-image.webp" />
-      <meta property="og:url" content={`${CANONICAL_URL}${/* pathname */ ''}`} />
+      <meta property="og:url" content={`${CANONICAL_URL}`} />
     </>
   )
 }

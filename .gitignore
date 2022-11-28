@@ -145,3 +145,5 @@ dist
 
 public/*.js
 public/*.map
+
+.env.*

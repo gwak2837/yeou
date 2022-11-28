@@ -3,6 +3,8 @@ import './globals.css'
 import localFont from '@next/font/local'
 import { ReactNode } from 'react'
 
+import ChannelTalk from '../components/ChannelTalk'
+import GoogleAnalytics from '../components/GoogleAnalytics'
 import {
   APPLICATION_NAME,
   APPLICATION_SHORT_NAME,
@@ -10,9 +12,7 @@ import {
   CANONICAL_URL,
   KEYWORDS,
   SUBJECT,
-} from '../common/constants'
-import ChannelTalk from '../components/ChannelTalk'
-import GoogleAnalytics from '../components/GoogleAnalytics'
+} from '../utils/constants'
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',

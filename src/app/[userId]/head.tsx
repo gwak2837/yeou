@@ -1,4 +1,4 @@
-import { CANONICAL_URL } from '../../common/constants'
+import { CANONICAL_URL } from '../../utils/constants'
 
 export default function Head() {
   const title = '새소식2'
