@@ -1,8 +1,8 @@
-import { CANONICAL_URL } from '../common/constants'
+import { CANONICAL_URL } from '../../common/constants'
 
 export default function Head() {
-  const title = '새소식'
-  const description = '가격 변동 알리미'
+  const title = '새소식2'
+  const description = '가격 변동 알리미2'
 
   return (
     <>
