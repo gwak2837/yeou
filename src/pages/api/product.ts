@@ -72,5 +72,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     reviewCount,
   })
 
-  pool.query('')
+  // Save result
+  // const { rows } = await pool.query('SELECT id FROM product WHERE url = $1', [productURL])
+
+  // pool.query('INSERT INTO product_history (price, product_id) values ($1, $2)', [price, rows[0].id])
 }
