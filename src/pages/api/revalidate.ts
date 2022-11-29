@@ -11,8 +11,12 @@ const limiter = rateLimit({
 let isRunning = false
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const url = req.query.url
+
   if (req.query.key !== REVALIDATION_KEY)
     return res.status(401).json({ error: 'Invalid revalidation key' })
+
+  if (!url || typeof url !== 'string') return res.status(400).json({ error: 'Invalid url' })
 
   try {
     await limiter.check(res, 1, 'CACHE_TOKEN')
@@ -25,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   isRunning = true
 
   try {
-    await res.revalidate('/path-to-revalidate')
+    await res.revalidate(url)
     res.json({ revalidated: true })
   } catch (err) {
     res.status(500).send('Error revalidating')

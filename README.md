@@ -9,6 +9,7 @@
 
 ## ☁ Cloud
 
+- [Vercel](https://vercel.com)
 - [Google Cloud Run](https://cloud.google.com/run)
 - [Google Cloud Storage](https://cloud.google.com/storage)
 - [Google Cloud Build](https://cloud.google.com/build)
@@ -46,10 +47,6 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  // i18n: {
-  //   locales: ['ko-KR', 'en'],
-  //   defaultLocale: 'ko-KR',
-  // },
   images: {
     domains: ['storage.googleapis.com'],
   },
@@ -758,8 +755,12 @@ const limiter = rateLimit({
 let isRunning = false
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const url = req.query.url
+
   if (req.query.key !== REVALIDATION_KEY)
     return res.status(401).json({ error: 'Invalid revalidation key' })
+
+  if (!url || typeof url !== 'string') return res.status(400).json({ error: 'Invalid url' })
 
   try {
     await limiter.check(res, 1, 'CACHE_TOKEN')
@@ -772,7 +773,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   isRunning = true
 
   try {
-    await res.revalidate('/path-to-revalidate')
+    await res.revalidate(url)
     res.json({ revalidated: true })
   } catch (err) {
     res.status(500).send('Error revalidating')
