@@ -1,6 +1,21 @@
 # 쿠팡 가격 알리미
 
-## 과정
+## 💻 개발 환경
+
+- macOS 12.6
+- [Node.js](https://nodejs.org/en/) 18.12
+- [Yarn](https://yarnpkg.com/getting-started/install#install-corepack) 3.3
+- [Git](https://git-scm.com/download) 2.38
+
+## ☁ Cloud
+
+- [Google Cloud Run](https://cloud.google.com/run)
+- [Google Cloud Storage](https://cloud.google.com/storage)
+- [Google Cloud Build](https://cloud.google.com/build)
+- [Google Container Registry](https://cloud.google.com/container-registry)
+- [Oracle Virtual Machine](https://www.oracle.com/kr/cloud/compute/virtual-machines/)
+
+## 📦 과정
 
 ### Yarn berry
 
@@ -101,8 +116,7 @@ echo {}> .prettierrc.json
 `.prettierignore` 파일을 아래와 같이 생성합니다:
 
 ```
-.yarn/plugins
-.yarn/releases
+.yarn
 .pnp.*
 ```
 
@@ -595,7 +609,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ### Font
 
-You can optimally load web fonts with zero layout shift, thanks to the underlying CSS size-adjust property used.
+> https://github.com/orioncactus/pretendard \
+> https://nextjs.org/docs/api-reference/next/font
+
+You can optimally load web fonts with zero layout shift, thanks to the underlying CSS `size-adjust` property used.
 
 ```
 yarn add @next/font
@@ -605,11 +622,29 @@ yarn add @next/font
 
 가능한 확장자: `woff2`, `woff`, `ttf`, `otf`
 
-```
+```tsx
 ...
 import localFont from '@next/font/local'
 
-const myFont = localFont({ src: './PretendardVariable.woff2' })
+const myFont = localFont({
+  src: './PretendardVariable.woff2',
+  fallback: [
+    'Pretendard',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'system-ui',
+    'Roboto',
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'sans-serif',
+  ],
+})
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -622,9 +657,131 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 ```
 
+### Recoil, React Query, React Toast, React Form
+
+> https://tanstack.com/query/v4/docs/overview \
+> https://recoiljs.org/docs/introduction/getting-started \
+> https://react-hot-toast.com/docs \
+> https://react-hook-form.com/get-started \
+> https://beta.nextjs.org/docs/rendering/server-and-client-components#third-party-packages
+
+```bash
+yarn add @tanstack/react-query recoil react-hot-toast react-hook-form
+```
+
+`src/components/ReactQuery.tsx` 파일을 아래와 같이 생성합니다:
+
+```tsx
+'use client'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactNode } from 'react'
+
+type Props = {
+  children: ReactNode
+}
+
+const queryClient = new QueryClient()
+
+export default function ReactQuery({ children }: Props) {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+}
+```
+
+`src/components/Recoil.tsx` 파일을 아래와 같이 생성합니다:
+
+```tsx
+'use client'
+
+import { ReactNode } from 'react'
+import { RecoilRoot } from 'recoil'
+
+type Props = {
+  children: ReactNode
+}
+
+export default function Recoil({ children }: Props) {
+  return <RecoilRoot>{children}</RecoilRoot>
+}
+```
+
+`src/components/ReactHotToast.tsx` 파일을 아래와 같이 생성합니다:
+
+```tsx
+'use client'
+
+import { Toaster } from 'react-hot-toast'
+
+export default function ReactHotToast() {
+  return <Toaster />
+}
+```
+
+`src/app/layout.tsx` 파일을 아래와 같이 수정합니다:
+
+```tsx
+...
+import ReactQuery from '../components/ReactQuery'
+import Recoil from '../components/Recoil'
+import ReactHotToast from '../components/ReactHotToast'
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="ko-KR" className={myFont.className}>
+      ...
+      <body className={myFont.className}>
+        <Recoil>
+          <ReactQuery>{children}</ReactQuery>
+        </Recoil>
+        <ReactHotToast />
+      </body>
+    </html>
+  )
+}
+```
+
+### Next.js API
+
+`src/pages/api/revalidate.ts` 파일을 아래와 같이 생성합니다:
+
+```ts
+import { NextApiRequest, NextApiResponse } from 'next'
+
+import { REVALIDATION_KEY } from '../../common/constants'
+import rateLimit from '../../common/rate-limit'
+
+const limiter = rateLimit({
+  interval: 1_000,
+  uniqueTokenPerInterval: 1_000,
+})
+
+let isRunning = false
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.query.key !== REVALIDATION_KEY)
+    return res.status(401).json({ error: 'Invalid revalidation key' })
+
+  try {
+    await limiter.check(res, 1, 'CACHE_TOKEN')
+  } catch (error) {
+    return res.status(429).json({ error: 'Rate limit exceeded' })
+  }
+
+  if (isRunning) return res.status(429).json({ error: 'Rate limit exceeded' })
+
+  isRunning = true
+
+  try {
+    await res.revalidate('/path-to-revalidate')
+    res.json({ revalidated: true })
+  } catch (err) {
+    res.status(500).send('Error revalidating')
+  }
+
+  isRunning = false
+}
+```
+
 스플래시 이미지
 구글 애드센스
-react query
-react hook form
-react toastify
 sharp

@@ -7,6 +7,8 @@ export const NEXT_PUBLIC_VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC
 const NEXT_PUBLIC_VERCEL_URL = process.env.NEXT_PUBLIC_VERCEL_URL as string
 const NEXT_PUBLIC_VERCEL_ENV = process.env.NEXT_PUBLIC_VERCEL_ENV as string
 
+export const REVALIDATION_KEY = process.env.REVALIDATION_KEY as string
+
 export const POSTGRES_CONNECTION_STRING = process.env.POSTGRES_CONNECTION_STRING as string
 export const POSTGRES_CA = process.env.POSTGRES_CA as string
 

@@ -1,3 +1,4 @@
-.yarn/plugins
-.yarn/releases
+.next
+.yarn
 .pnp.*
+public/*.js

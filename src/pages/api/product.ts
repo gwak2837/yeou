@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
-import { pool } from '../../libs/postgres'
-import rateLimit from '../../utils/rate-limit'
+import { pool } from '../../common/postgres'
+import rateLimit from '../../common/rate-limit'
 
 puppeteer.use(StealthPlugin())
 
@@ -14,16 +14,16 @@ const limiter = rateLimit({
 })
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const productURL = req.query.productURL
+
+  if (!productURL || typeof productURL !== 'string')
+    return res.status(400).json({ error: 'Please input productURL' })
+
   try {
     await limiter.check(res, 60_000, 'CACHE_TOKEN')
   } catch (error) {
     return res.status(429).json({ error: 'Rate limit exceeded' })
   }
-
-  const productURL = req.query.productURL
-
-  if (!productURL || typeof productURL !== 'string')
-    return res.status(400).json({ error: 'Please input productURL' })
 
   // Headless browser
   const browser = await puppeteer.launch()

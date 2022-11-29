@@ -15,12 +15,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier . --write --ignore-path .gitignore",
+    "format": "prettier . --write",
     "test": "jest",
     "postinstall": "husky install"
   },
   "dependencies": {
     "@next/font": "^13.0.4",
+    "@tanstack/react-query": "^4.18.0",
     "cheerio": "^1.0.0-rc.12",
     "lru-cache": "^7.14.1",
     "next": "13.0.4",
@@ -31,6 +32,8 @@
     "puppeteer-extra-plugin-stealth": "^2.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.39.7",
+    "react-hot-toast": "^2.4.0",
     "recoil": "^0.7.6",
     "sanitize.css": "^13.0.0"
   },

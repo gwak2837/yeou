@@ -1,6 +1,6 @@
 import pg from 'pg'
 
-import { POSTGRES_CA, POSTGRES_CONNECTION_STRING, PROJECT_ENV } from '../utils/constants'
+import { POSTGRES_CA, POSTGRES_CONNECTION_STRING, PROJECT_ENV } from './constants'
 
 const { Pool } = pg
 

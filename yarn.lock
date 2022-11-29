@@ -1979,6 +1979,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:4.18.0":
+  version: 4.18.0
+  resolution: "@tanstack/query-core@npm:4.18.0"
+  checksum: 2d3f253809e2fc0927bbab25e7a61cf1fa957c993006f219a8dcc615acfe68003629e612c7d914198457d0b1bfd2b6d5738093fc45a82369b1d3beee14395a28
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^4.18.0":
+  version: 4.18.0
+  resolution: "@tanstack/react-query@npm:4.18.0"
+  dependencies:
+    "@tanstack/query-core": 4.18.0
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 2fbb3e664fdc70650dfaaa63e56a1b97dddb50a46f6d3e0a0361c1fe9a0d711c1bb3b0f2e7ba5362269124405eb7a4f232a755b3e901b815d62008ddeedbd889
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^8.5.0":
   version: 8.19.0
   resolution: "@testing-library/dom@npm:8.19.0"
@@ -3488,6 +3514,7 @@ __metadata:
   resolution: "coopang@workspace:."
   dependencies:
     "@next/font": ^13.0.4
+    "@tanstack/react-query": ^4.18.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@types/node": ^18.11.9
@@ -3517,6 +3544,8 @@ __metadata:
     puppeteer-extra-plugin-stealth: ^2.11.1
     react: 18.2.0
     react-dom: 18.2.0
+    react-hook-form: ^7.39.7
+    react-hot-toast: ^2.4.0
     recoil: ^0.7.6
     sanitize.css: ^13.0.0
     tailwindcss: ^3.2.4
@@ -5189,6 +5218,15 @@ __metadata:
   version: 0.1.2
   resolution: "globrex@npm:0.1.2"
   checksum: adca162494a176ce9ecf4dd232f7b802956bb1966b37f60c15e49d2e7d961b66c60826366dc2649093cad5a0d69970cfa8875bd1695b5a1a2f33dcd2aa88da3c
+  languageName: node
+  linkType: hard
+
+"goober@npm:^2.1.10":
+  version: 2.1.11
+  resolution: "goober@npm:2.1.11"
+  peerDependencies:
+    csstype: ^3.0.10
+  checksum: c37c14f476f65f7c66d94ac1a1686a130b4fa42fc512175444e3c708fa1815f6ea579e1b23567e57d41de2e62ff8b5913915ec829f05a3b995d1a7a0016c0bdf
   languageName: node
   linkType: hard
 
@@ -8454,6 +8492,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.39.7":
+  version: 7.39.7
+  resolution: "react-hook-form@npm:7.39.7"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: b748e19ef768f8a42aeb9069234f3a7303038b9e16c143f48001edccc4ea92be6ca642c48d6efdbdf936ea4eed1b8da5ce8dd8529aeacca238d00e292e206126
+  languageName: node
+  linkType: hard
+
+"react-hot-toast@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "react-hot-toast@npm:2.4.0"
+  dependencies:
+    goober: ^2.1.10
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 910214496d6821af8e643c5f7087eff6c76f1395756f3d6cf1fc07a599c582c443cbb5a4cadfc58205acf0845b77a2a10a4ca49b385e772b72edc57dfd38d016
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -9814,7 +9873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:1.2.0":
+"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:

@@ -1,4 +1,4 @@
-import { CANONICAL_URL } from '../utils/constants'
+import { APPLICATION_SHORT_NAME, CANONICAL_URL } from '../common/constants'
 
 export default function Head() {
   const title = '새소식'
@@ -11,7 +11,7 @@ export default function Head() {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content="/images/og-image.webp" />
-      <meta property="og:image:alt" content="/images/og-image.webp" />
+      <meta property="og:image:alt" content={`${APPLICATION_SHORT_NAME} 로고`} />
       <meta property="og:url" content={`${CANONICAL_URL}`} />
     </>
   )

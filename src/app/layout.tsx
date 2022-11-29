@@ -3,8 +3,6 @@ import './globals.css'
 import localFont from '@next/font/local'
 import { ReactNode } from 'react'
 
-import ChannelTalk from '../components/ChannelTalk'
-import GoogleAnalytics from '../components/GoogleAnalytics'
 import {
   APPLICATION_NAME,
   APPLICATION_SHORT_NAME,
@@ -12,7 +10,12 @@ import {
   CANONICAL_URL,
   KEYWORDS,
   SUBJECT,
-} from '../utils/constants'
+} from '../common/constants'
+import ChannelTalk from '../components/ChannelTalk'
+import GoogleAnalytics from '../components/GoogleAnalytics'
+import ReactQuery from '../components/ReactQuery'
+import Recoil from '../components/Recoil'
+import ReactHotToast from '../components/ReactHotToast'
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',
@@ -43,7 +46,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image:alt" content={`${APPLICATION_NAME} Logo`} />
+      <meta name="twitter:image:alt" content={`${APPLICATION_SHORT_NAME} 로고`} />
 
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -72,7 +75,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <ChannelTalk />
       <GoogleAnalytics />
 
-      <body className={myFont.className}>{children}</body>
+      <body className={myFont.className}>
+        <Recoil>
+          <ReactQuery>{children}</ReactQuery>
+        </Recoil>
+        <ReactHotToast />
+      </body>
     </html>
   )
 }

@@ -2,14 +2,14 @@ import LRU from 'lru-cache'
 import type { NextApiResponse } from 'next'
 
 type Options = {
-  uniqueTokenPerInterval?: number
-  interval?: number
+  uniqueTokenPerInterval: number
+  interval: number
 }
 
-export default function rateLimit(options?: Options) {
+export default function rateLimit(options: Options) {
   const tokenCache = new LRU({
-    max: options?.uniqueTokenPerInterval || 500,
-    ttl: options?.interval || 60000,
+    ttl: options.interval,
+    max: options.uniqueTokenPerInterval,
   })
 
   return {
