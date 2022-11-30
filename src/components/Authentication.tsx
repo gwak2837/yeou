@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import useCurrentUser from '../app/hooks/useCurrentUser'
 import { NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY } from '../common/constants'
 import { localStorage, sessionStorage } from '../common/constants'
+import { fetchWithJWT } from '../common/utils'
 import { bootChanneltalk } from './ChannelTalk'
 
 type Props = {
@@ -20,8 +21,8 @@ export default function Authentication({ children }: Props) {
 
   useQuery({
     queryKey: ['user'],
-    queryFn: () => fetch(`${NEXT_PUBLIC_BACKEND_URL}/user?jwt=${jwt}`).then((res) => res.json()),
-    enabled: !currentUser && Boolean(jwt),
+    queryFn: () => fetchWithJWT(`${NEXT_PUBLIC_BACKEND_URL}/user`),
+    enabled: !currentUser?.user && Boolean(jwt),
     onError: (error: any) => {
       toast.error(`${error}`)
       sessionStorage?.removeItem('jwt')
@@ -40,8 +41,6 @@ export default function Authentication({ children }: Props) {
       })
     },
   })
-
-  console.log('👀 - !currentUser && Boolean(jwt)', !currentUser && Boolean(jwt))
 
   return <>{children}</>
 }
