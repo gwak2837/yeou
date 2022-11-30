@@ -1,13 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import Username from '../components/Username'
 import styles from './page.module.css'
 
 export default function Home() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <Link href="/asdf">이동</Link>
+        <Link href="/oauth?jwt=123">이동</Link>
+        <Username />
       </main>
 
       <footer className={styles.footer}>

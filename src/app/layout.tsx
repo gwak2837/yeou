@@ -16,6 +16,7 @@ import GoogleAnalytics from '../components/GoogleAnalytics'
 import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
 import ReactHotToast from '../components/ReactHotToast'
+import Authentication from '../components/Authentication'
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',
@@ -77,7 +78,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
       <body className={myFont.className}>
         <Recoil>
-          <ReactQuery>{children}</ReactQuery>
+          <ReactQuery>
+            <Authentication>{children}</Authentication>
+          </ReactQuery>
         </Recoil>
         <ReactHotToast />
       </body>

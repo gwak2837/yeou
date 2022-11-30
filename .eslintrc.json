@@ -1,8 +1,14 @@
 {
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:jest/recommended",
     "plugin:jest/style",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "next/core-web-vitals",
     "prettier"
   ],
@@ -10,6 +16,8 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "no-undef": "warn",
     "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
-    "prefer-const": "off"
+    "prefer-const": "off",
+
+    "@tanstack/query/exhaustive-deps": "off"
   }
 }

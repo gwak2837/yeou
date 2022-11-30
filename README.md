@@ -32,12 +32,14 @@ corepack prepare yarn@stable --activate
 ### Next.js
 
 > https://nextjs.org/docs/api-reference/create-next-app \
-> https://nextjs.org/docs/advanced-features/src-directory
+> https://nextjs.org/docs/advanced-features/src-directory \
+> https://nextjs.org/docs/advanced-features/output-file-tracing
 
 Next.js 프로젝트를 생성합니다.
 
 ```bash
 yarn create next-app 프로젝트이름 --ts --eslint --experimental-app
+yarn add sharp
 ```
 
 `next.config.js` 파일을 수정합니다:
@@ -50,7 +52,7 @@ const nextConfig = {
   images: {
     domains: ['storage.googleapis.com'],
   },
-  // output: 'standalone',
+  output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
 }
@@ -343,6 +345,18 @@ const withPWA = require('next-pwa')({
 ...
 
 module.exports = withPWA(nextConfig)
+```
+
+`tsconfig.json` 파일을 수정합니다:
+
+```json
+{
+  "compilerOptions": {
+    "lib": [..., "webworker"],
+    ...
+  },
+  ...
+}
 ```
 
 `.gitignore` 파일을 수정합니다:
@@ -785,4 +799,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 스플래시 이미지
 구글 애드센스
-sharp
+i18n

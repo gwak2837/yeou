@@ -35,9 +35,11 @@
     "react-hook-form": "^7.39.7",
     "react-hot-toast": "^2.4.0",
     "recoil": "^0.7.6",
-    "sanitize.css": "^13.0.0"
+    "sanitize.css": "^13.0.0",
+    "sharp": "^0.31.2"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.15.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/node": "^18.11.9",
