@@ -247,6 +247,12 @@ yarn add --dev eslint-config-prettier eslint-plugin-jest
 
 ```json
 {
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "jest/globals": true,
+    "node": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:jest/recommended",
@@ -254,6 +260,7 @@ yarn add --dev eslint-config-prettier eslint-plugin-jest
     "next/core-web-vitals",
     "prettier"
   ]
+  ...
 }
 ```
 

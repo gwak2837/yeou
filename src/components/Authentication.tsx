@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 import toast from 'react-hot-toast'
 
-import useCurrentUser from '../app/hooks/useCurrentUser'
 import { NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY } from '../common/constants'
 import { localStorage, sessionStorage } from '../common/constants'
 import { fetchWithJWT } from '../common/utils'

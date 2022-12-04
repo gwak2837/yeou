@@ -42,9 +42,10 @@ export default function OAuth() {
       sessionStorage?.setItem('jwt', jwt)
     }
 
-    queryClient.refetchQueries({ queryKey: ['user'] })
-    router.replace(sessionStorage?.getItem('redirectToAfterLogin') ?? '/')
-    toast.success('소셜 로그인 성공')
+    queryClient.refetchQueries({ queryKey: ['user'] }).then(() => {
+      router.replace(sessionStorage?.getItem('redirectToAfterLogin') ?? '/')
+      toast.success('소셜 로그인 성공')
+    })
   }, [error, isExpired, jwt, queryClient, router])
 
   useEffect(() => {
