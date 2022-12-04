@@ -11,12 +11,14 @@ import {
   KEYWORDS,
   SUBJECT,
 } from '../common/constants'
-import ChannelTalk from '../components/ChannelTalk'
+
 import GoogleAnalytics from '../components/GoogleAnalytics'
 import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
 import ReactHotToast from '../components/ReactHotToast'
 import Authentication from '../components/Authentication'
+import ChannelTalk from '../components/ChannelTalk'
+import FlareLane from '../components/FlareLane'
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',
@@ -73,9 +75,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <meta name="revisit-after" content="3 days" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
-      <ChannelTalk />
-      <GoogleAnalytics />
-
       <body className={myFont.className}>
         <Recoil>
           <ReactQuery>
@@ -84,6 +83,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </Recoil>
         <ReactHotToast />
       </body>
+
+      <ChannelTalk />
+      <FlareLane />
+      <GoogleAnalytics />
     </html>
   )
 }

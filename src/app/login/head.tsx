@@ -1,7 +1,7 @@
-import { APPLICATION_SHORT_NAME, CANONICAL_URL } from '../common/constants'
+import { CANONICAL_URL } from '../../common/constants'
 
-export default function HomeHead() {
-  const title = '새소식'
+export default function LoginHead() {
+  const title = '나의 새소식'
   const description = '가격 변동 알리미'
 
   return (
@@ -11,8 +11,8 @@ export default function HomeHead() {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content="/images/og-image.webp" />
-      <meta property="og:image:alt" content={`${APPLICATION_SHORT_NAME} 로고`} />
-      <meta property="og:url" content={`${CANONICAL_URL}`} />
+      <meta property="og:image:alt" content="/images/og-image.webp" />
+      <meta property="og:url" content={`${CANONICAL_URL}/login`} />
     </>
   )
 }

@@ -251,7 +251,8 @@ yarn add --dev eslint-config-prettier eslint-plugin-jest
     "browser": true,
     "es2022": true,
     "jest/globals": true,
-    "node": true
+    "node": true,
+    "worker": true
   },
   "extends": [
     "eslint:recommended",
@@ -430,7 +431,6 @@ export default function Head() {
 ```ts
 /// <reference lib="webworker" />
 
-// Add an import, export, or an empty 'export {}' statement to make it a module. ts(1208)
 // eslint-disable-next-line no-undef
 export declare const self: ServiceWorkerGlobalScope
 
@@ -488,22 +488,17 @@ self.addEventListener('message', (e) => {
 'use client'
 
 import Script from 'next/script'
-import { useEffect } from 'react'
 
 import { NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY } from '../common/constants'
 
-const channelTalkScript = `!function(){var e=window;if(e.ChannelIO)return(window.console.error||window.console.log||function(){})("ChannelIO script included twice.");var n=function(){n.c(arguments)};function t(){if(!e.ChannelIOInitialized){e.ChannelIOInitialized=!0;var n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://cdn.channel.io/plugin/ch-plugin-web.js",n.charset="UTF-8";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(n,t)}}n.q=[],n.c=function(e){n.q.push(e)},e.ChannelIO=n,"complete"===document.readyState?t():window.attachEvent?window.attachEvent("onload",t):(window.addEventListener("DOMContentLoaded",t,!1),window.addEventListener("load",t,!1))}();`
+const channelTalkScript = `!function(){var e=window;if(e.ChannelIO)return(window.console.error||window.console.log||function(){})("ChannelIO script included twice.");var n=function(){n.c(arguments)};function t(){if(!e.ChannelIOInitialized){e.ChannelIOInitialized=!0;var n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://cdn.channel.io/plugin/ch-plugin-web.js",n.charset="UTF-8";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(n,t)}}n.q=[],n.c=function(e){n.q.push(e)},e.ChannelIO=n,"complete"===document.readyState?t():window.attachEvent?window.attachEvent("onload",t):(window.addEventListener("DOMContentLoaded",t,!1),window.addEventListener("load",t,!1))}(),ChannelIO("boot",{pluginKey:"${NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY}"});`
 
-function bootChanneltalk(option: Record<string, any>) {
+export function bootChanneltalk(option: Record<string, any>) {
   window.ChannelIO('shutdown')
   window.ChannelIO('boot', option)
 }
 
 export default function ChannelTalk() {
-  useEffect(() => {
-    bootChanneltalk({ pluginKey: NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY })
-  }, [])
-
   return <Script id="channel-talk">{channelTalkScript}</Script>
 }
 ```
@@ -518,10 +513,8 @@ import ChannelTalk from '../components/ChannelTalk'
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html>
-      <head />
       ...
       <ChannelTalk />
-      <body>{children}</body>
     </html>
   )
 }
@@ -588,20 +581,18 @@ export default function GoogleAnalytics() {
   }, [])
 
   return (
-    <>
-      {/* https://nextjs.org/docs/messages/next-script-for-ga */}
-      {NEXT_PUBLIC_GA_ID && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GA_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {gaScript}
-          </Script>
-        </>
-      )}
-    </>
+    // https://nextjs.org/docs/messages/next-script-for-ga
+    NEXT_PUBLIC_GA_ID ? (
+      <>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {gaScript}
+        </Script>
+      </>
+    ) : null
   )
 }
 ```
@@ -616,11 +607,33 @@ import GoogleAnalytics from '../components/GoogleAnalytics'
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html>
-      <head />
       ...
       <GoogleAnalytics />
-      <body>{children}</body>
     </html>
+  )
+}
+```
+
+### FlareLane
+
+> https://docs.flarelane.com/web-push-direct
+
+`src/components/FlareLane.tsx` 파일을 아래와 같이 생성합니다:
+
+```
+'use client'
+
+import Script from 'next/script'
+import { NEXT_PUBLIC_FLARE_LANE_PROJECT_ID } from '../common/constants'
+
+export default function FlareLane() {
+  return (
+    <Script
+      id="flare-lane"
+      src="https://cdn.flarelane.com/WebSDK.js"
+      strategy="lazyOnload"
+      onLoad={() => window.FlareLane.initialize({ projectId: NEXT_PUBLIC_FLARE_LANE_PROJECT_ID })}
+    />
   )
 }
 ```

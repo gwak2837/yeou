@@ -1,8 +1,9 @@
 /// <reference lib="webworker" />
 
-// Add an import, export, or an empty 'export {}' statement to make it a module. ts(1208)
 // eslint-disable-next-line no-undef
 export declare const self: ServiceWorkerGlobalScope
+
+importScripts('https://cdn.flarelane.com/ServiceWorker.js')
 
 self.addEventListener('install', (e) => {
   console.log('👀 - install', e)

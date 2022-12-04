@@ -1,6 +1,6 @@
 'use client'
 
-import useCurrentUser from '../app/hooks/useCurrentUser'
+import useCurrentUser from '../hooks/useCurrentUser'
 
 export default function Username() {
   const currentUser = useCurrentUser() as any

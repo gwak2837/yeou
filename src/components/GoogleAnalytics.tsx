@@ -49,19 +49,17 @@ export default function GoogleAnalytics() {
   }, [])
 
   return (
-    <>
-      {/* https://nextjs.org/docs/messages/next-script-for-ga */}
-      {NEXT_PUBLIC_GA_ID && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GA_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {gaScript}
-          </Script>
-        </>
-      )}
-    </>
+    // https://nextjs.org/docs/messages/next-script-for-ga
+    NEXT_PUBLIC_GA_ID ? (
+      <>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {gaScript}
+        </Script>
+      </>
+    ) : null
   )
 }

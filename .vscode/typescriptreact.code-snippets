@@ -6,7 +6,7 @@
       "import Image from 'next/image'",
       "import Link from 'next/link'",
       "",
-      "export default function User() {",
+      "export default function $1Page() {",
       "  return (",
       "    <div className=\"\">",
       "      <main className=\"\">",
@@ -18,6 +18,28 @@
       "  )",
       "}",
       ""
+    ]
+  },
+  "Head Component": {
+    "prefix": "head",
+    "description": "Head Component",
+    "body": [
+      "export default function $1Head() {",
+      "  const title = '나의 새소식'",
+      "  const description = '가격 변동 알리미'",
+      "",
+      "  return (",
+      "    <>",
+      "      <title>{title}</title>",
+      "      <meta name=\"description\" content={description} />",
+      "      <meta property=\"og:title\" content={title} />",
+      "      <meta property=\"og:description\" content={description} />",
+      "      <meta property=\"og:image\" content=\"/images/og-image.webp\" />",
+      "      <meta property=\"og:image:alt\" content=\"/images/og-image.webp\" />",
+      "      <meta property=\"og:url\" content={`\\${CANONICAL_URL}/$2`} />",
+      "    </>",
+      "  )",
+      "}"
     ]
   },
   "Layout Component": {

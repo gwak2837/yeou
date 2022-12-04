@@ -24,6 +24,9 @@ export const NEXT_PUBLIC_GA_ID = process.env.NEXT_PUBLIC_GA_ID as string
 export const NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY = process.env
   .NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY as string
 
+export const NEXT_PUBLIC_FLARE_LANE_PROJECT_ID = process.env
+  .NEXT_PUBLIC_FLARE_LANE_PROJECT_ID as string
+
 // if (!NEXT_PUBLIC_PROJECT_ENV) throw new Error('`NEXT_PUBLIC_PROJECT_ENV` 환경 변수를 설정해주세요.')
 // if (!NEXT_PUBLIC_BACKEND_URL) throw new Error('`NEXT_PUBLIC_BACKEND_URL` 환경 변수를 설정해주세요.')
 // if (!NEXT_PUBLIC_VAPID_PUBLIC_KEY)

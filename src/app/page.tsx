@@ -2,27 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import Username from '../components/Username'
-import styles from './page.module.css'
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
+    <div className="px-8">
+      <main className="min-h-screen py-16 flex-1 flex flex-col justify-center items-center">
         <Link href="/oauth?jwt=123">이동</Link>
         <Username />
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span className={styles.logo}>
-            <Image src="/favicon.ico" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }

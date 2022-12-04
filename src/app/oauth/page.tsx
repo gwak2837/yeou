@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import { localStorage, sessionStorage } from '../../common/constants'
 import LoginLink from '../../components/LoginLink'
 
-export default function OAuth() {
+export default function OAuthPage() {
   const searchParams = useSearchParams()
 
   const jwt = searchParams.get('jwt')

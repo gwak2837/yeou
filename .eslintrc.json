@@ -3,7 +3,8 @@
     "browser": true,
     "es2022": true,
     "jest/globals": true,
-    "node": true
+    "node": true,
+    "worker": true
   },
   "extends": [
     "eslint:recommended",
