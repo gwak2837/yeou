@@ -12,11 +12,13 @@ let isRunning = false
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const url = req.query.url
+  const key = req.query.key
+
+  if (!key || !url || typeof url !== 'string')
+    return res.status(400).json({ error: 'Invalid request' })
 
   if (req.query.key !== REVALIDATION_KEY)
     return res.status(401).json({ error: 'Invalid revalidation key' })
-
-  if (!url || typeof url !== 'string') return res.status(400).json({ error: 'Invalid url' })
 
   try {
     await limiter.check(res, 1, 'CACHE_TOKEN')

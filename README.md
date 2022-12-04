@@ -735,7 +735,7 @@ export default function ReactHotToast() {
 import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
 import ReactHotToast from '../components/ReactHotToast'
-
+...
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko-KR" className={myFont.className}>
@@ -752,6 +752,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 ```
 
 ### Next.js API
+
+> https://beta.nextjs.org/docs/data-fetching/revalidating#on-demand-revalidation
 
 `src/pages/api/revalidate.ts` 파일을 아래와 같이 생성합니다:
 

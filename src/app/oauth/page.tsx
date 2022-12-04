@@ -44,7 +44,6 @@ export default function OAuth() {
 
     queryClient.refetchQueries({ queryKey: ['user'] })
     router.replace(sessionStorage?.getItem('redirectToAfterLogin') ?? '/')
-
     toast.success('소셜 로그인 성공')
   }, [error, isExpired, jwt, queryClient, router])
 
@@ -56,8 +55,17 @@ export default function OAuth() {
   }, [])
 
   return (
-    <div className="">
-      <main className="">{error ? 'error' : '소셜 로그인 중...'}</main>
-    </div>
+    <main className="">
+      <div className="">{error ? formatError(error) : '소셜 로그인 중...'}</div>
+    </main>
   )
+}
+
+function formatError(error: string) {
+  switch (error) {
+    case '':
+      return ''
+    default:
+      return '확인되지 않은 오류입니다'
+  }
 }

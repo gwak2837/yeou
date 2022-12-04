@@ -15,14 +15,9 @@ type Props = {
 }
 
 export default function Authentication({ children }: Props) {
-  const currentUser = useCurrentUser()
-
-  const jwt = sessionStorage?.getItem('jwt') || localStorage?.getItem('jwt')
-
   useQuery({
     queryKey: ['user'],
     queryFn: () => fetchWithJWT(`${NEXT_PUBLIC_BACKEND_URL}/user`),
-    enabled: !currentUser?.user && Boolean(jwt),
     onError: (error: any) => {
       toast.error(`${error}`)
       sessionStorage?.removeItem('jwt')
