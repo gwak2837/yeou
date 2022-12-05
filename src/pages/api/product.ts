@@ -35,7 +35,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Failed fetching HTML' })
   }
 
-  await page.waitForSelector('.prod-coupon-download-content', { timeout: 5000 })
+  await page.waitForSelector('.prod-coupon-download-btn')
+  const getStyle = 'document.querySelector(".prod-coupon-download-btn").getAttribute("style")'
+  const couponButtonStyle = await page.evaluate(getStyle)
+  if (couponButtonStyle !== 'display: none;')
+    await page.waitForSelector('.prod-coupon-download-content')
 
   // HTML parsing
   const $ = load(await page.content())
@@ -51,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .toArray()
         .map((e) => $(e).text())
     )
-  const creditCard = $('.benefit-label').text()
+  const creditCard = $('.benefit-label > b').text()
   const creditCardCompanies = $('.ccid-benefit-badge__inr')
     .find('img')
     .toArray()
