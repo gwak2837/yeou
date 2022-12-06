@@ -1,9 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Script from 'next/script'
 import { useEffect } from 'react'
 import { NEXT_PUBLIC_GA_ID } from '../common/constants'
+import { usePathname } from 'next/navigation'
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export function pageview(url: string) {
@@ -31,22 +31,27 @@ export function event({ action, category, label, value }: GTagEvent) {
 const gaScript = `function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","${NEXT_PUBLIC_GA_ID}");`
 
 export default function GoogleAnalytics() {
-  // https://beta.nextjs.org/docs/api-reference/use-router
-  const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      window.gtag.pageview(url)
-    }
+    if (!window.gtag || !pathname) return
 
-    // Next.js 13 에서 아직 미지원
-    // router.events.on('routeChangeComplete', handleRouteChange)
-    // router.events.on('hashChangeComplete', handleRouteChange)
-    // return () => {
-    //   router.events.off('routeChangeComplete', handleRouteChange)
-    //   router.events.off('hashChangeComplete', handleRouteChange)
-    // }
-  }, [])
+    pageview(pathname)
+  }, [pathname])
+
+  // Next.js 13 에서 아직 미지원
+  // const router = useRouter()
+  // useEffect(() => {
+  //   const handleRouteChange = (url) => {
+  //     gtag.pageview(url)
+  //   }
+  //   router.events.on('routeChangeComplete', handleRouteChange)
+  //   router.events.on('hashChangeComplete', handleRouteChange)
+  //   return () => {
+  //     router.events.off('routeChangeComplete', handleRouteChange)
+  //     router.events.off('hashChangeComplete', handleRouteChange)
+  //   }
+  // }, [router.events])
 
   return (
     // https://nextjs.org/docs/messages/next-script-for-ga
