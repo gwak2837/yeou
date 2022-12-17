@@ -42,7 +42,7 @@ export default function SearchForm() {
       {data && (
         <>
           <Image src={data.imageUrl} alt="cover" width="300" height="300" />
-          {data.creditCardCompanies?.map((card, i) => (
+          {data.creditCardCompanies?.map((card: any, i: number) => (
             <Image key={i} src={card} alt="cover" width="30" height="30" />
           ))}
         </>
