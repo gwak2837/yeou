@@ -16,20 +16,20 @@ type Props = {
 export default function Authentication({ children }: Props) {
   useQuery({
     queryKey: ['user', NEXT_PUBLIC_BACKEND_URL],
-    queryFn: () => fetchWithJWT(`${NEXT_PUBLIC_BACKEND_URL}/user`),
+    queryFn: () => fetchWithJWT(`${NEXT_PUBLIC_BACKEND_URL}/auth`),
     onError: (error: any) => {
       toast.error(`${error}`)
       sessionStorage?.removeItem('jwt')
       localStorage?.removeItem('jwt')
       bootChanneltalk({ pluginKey: NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY })
     },
-    onSuccess: ({ user }: any) => {
+    onSuccess: ({ username }: any) => {
       bootChanneltalk({
         pluginKey: NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY,
         // memberId: myNickname.id, // 채널톡-자유담 회원 정보 연동 필요
-        ...(user?.name && {
+        ...(username && {
           profile: {
-            name: user.name,
+            name: username,
           },
         }),
       })

@@ -9,10 +9,9 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: [
-      'storage.googleapis.com',
-      'k.kakaocdn.net',
-      // coopang
+    remotePatterns: [
+      { protocol: 'https', hostname: 'storage.googleapis.com' },
+      { protocol: 'https', hostname: '**.coupangcdn.com' },
     ],
   },
   output: 'standalone',

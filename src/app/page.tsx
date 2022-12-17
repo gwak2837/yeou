@@ -8,7 +8,6 @@ export default function HomePage() {
   return (
     <div className="px-8">
       <main className="py-16">
-        <Link href="/oauth?jwt=123">이동</Link>
         <Username />
         <SearchForm />
       </main>
