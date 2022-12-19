@@ -6,11 +6,8 @@ import SearchForm from './SearchForm'
 
 export default function HomePage() {
   return (
-    <div className="px-8">
-      <main className="py-16">
-        <Username />
-        <SearchForm />
-      </main>
-    </div>
+    <main className="py-16 max-w-screen-md mx-auto">
+      <SearchForm />
+    </main>
   )
 }

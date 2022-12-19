@@ -18,7 +18,7 @@ export default function Authentication({ children }: Props) {
     queryKey: ['user', NEXT_PUBLIC_BACKEND_URL],
     queryFn: () => fetchWithJWT(`${NEXT_PUBLIC_BACKEND_URL}/auth`),
     onError: (error: any) => {
-      toast.error(`${error}`)
+      toast.error(error.message)
       sessionStorage?.removeItem('jwt')
       localStorage?.removeItem('jwt')
       bootChanneltalk({ pluginKey: NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY })
