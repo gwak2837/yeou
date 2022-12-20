@@ -11,14 +11,13 @@ import {
   KEYWORDS,
   SUBJECT,
 } from '../common/constants'
-
-import GoogleAnalytics from '../components/GoogleAnalytics'
-import ReactQuery from '../components/ReactQuery'
-import Recoil from '../components/Recoil'
-import ReactHotToast from '../components/ReactHotToast'
 import Authentication from '../components/Authentication'
 import ChannelTalk from '../components/ChannelTalk'
 import FlareLane from '../components/FlareLane'
+import GoogleAnalytics from '../components/GoogleAnalytics'
+import ReactHotToast from '../components/ReactHotToast'
+import ReactQuery from '../components/ReactQuery'
+import Recoil from '../components/Recoil'
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',
@@ -79,13 +78,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Recoil>
           <ReactQuery>
             <Authentication>{children}</Authentication>
+            <FlareLane />
           </ReactQuery>
         </Recoil>
         <ReactHotToast />
       </body>
 
       <ChannelTalk />
-      <FlareLane />
       <GoogleAnalytics />
     </html>
   )

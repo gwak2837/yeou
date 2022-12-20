@@ -15,8 +15,8 @@ type Props = {
 
 export default function Authentication({ children }: Props) {
   useQuery({
-    queryKey: ['user', NEXT_PUBLIC_BACKEND_URL],
-    queryFn: () => fetchWithJWT(`${NEXT_PUBLIC_BACKEND_URL}/auth`),
+    queryKey: ['user'],
+    queryFn: () => fetchWithJWT(`/auth`),
     onError: (error: any) => {
       toast.error(error.message)
       sessionStorage?.removeItem('jwt')

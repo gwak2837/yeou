@@ -1,15 +1,57 @@
 'use client'
 
-import Script from 'next/script'
-import { NEXT_PUBLIC_FLARE_LANE_PROJECT_ID } from '../common/constants'
+import FlarelaneSDK from '@flarelane/flarelane-web-sdk'
+import { useQueryClient } from '@tanstack/react-query'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { NEXT_PUBLIC_FLARE_LANE_PROJECT_ID, NODE_ENV } from '../common/constants'
+import { fetchCatchingError } from '../common/utils'
 
 export default function FlareLane() {
-  return NEXT_PUBLIC_FLARE_LANE_PROJECT_ID ? (
-    <Script
-      id="flare-lane"
-      src="https://cdn.flarelane.com/WebSDK.js"
-      strategy="lazyOnload"
-      onLoad={() => window.FlareLane.initialize({ projectId: NEXT_PUBLIC_FLARE_LANE_PROJECT_ID })}
-    />
-  ) : null
+  const [mustRefetchUser, setMustRefetchUser] = useState(false)
+
+  async function initializeFlareLane() {
+    await FlarelaneSDK.initialize({ projectId: NEXT_PUBLIC_FLARE_LANE_PROJECT_ID })
+
+    if (NODE_ENV === 'production') FlarelaneSDK.setLogLevel('error')
+
+    FlarelaneSDK.getIsSubscribed((isSubscribed) => {
+      if (!isSubscribed) return
+
+      FlarelaneSDK.getDeviceId(async (deviceId) => {
+        if (!deviceId) return
+
+        const { jwt } = await fetchCatchingError('/auth/flare-lane', {
+          headers: { 'device-id': deviceId },
+        })
+
+        sessionStorage.setItem('jwt', jwt)
+        setMustRefetchUser(true)
+      })
+    })
+  }
+
+  useEffect(() => {
+    initializeFlareLane()
+  }, [])
+
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    if (mustRefetchUser) {
+      queryClient.refetchQueries({ queryKey: ['user'], type: 'active' })
+      setMustRefetchUser(false)
+    }
+  }, [mustRefetchUser, queryClient])
+
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (pathname) {
+      FlarelaneSDK.setCurrentPath(pathname)
+    }
+  }, [pathname])
+
+  return null
 }

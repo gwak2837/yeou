@@ -15,16 +15,23 @@ self.addEventListener('activate', (e) => {
 })
 
 self.addEventListener('push', (e) => {
-  const message = e.data?.json()
-  console.log('👀 - message', message)
+  if (!e.data) return
 
-  e.waitUntil(
-    self.registration.showNotification(message.sender.nickname, {
-      body: message.content,
-      icon: message.sender.imageUrl,
-      data: message.url,
-    })
-  )
+  const msg = e.data.json()
+  console.log('👀 - pushMessage', msg)
+
+  const showingNotification = msg.isFlareLane
+    ? self.registration.showNotification(`FlareLane - ${msg.webPushConfig.siteName}`, {
+        body: msg.body,
+        icon: msg.webPushConfig.siteIcon,
+      })
+    : self.registration.showNotification(msg.title, {
+        body: msg.body,
+        icon: msg.sender.imageUrl,
+        data: msg.url,
+      })
+
+  e.waitUntil(showingNotification)
 })
 
 self.addEventListener('notificationclick', (e) => {

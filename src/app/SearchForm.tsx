@@ -12,11 +12,8 @@ export default function SearchForm() {
   const [enabled, setEnabled] = useState(false)
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['product', productURL, NEXT_PUBLIC_BACKEND_URL],
-    queryFn: () =>
-      fetchCatchingError(
-        `${NEXT_PUBLIC_BACKEND_URL}/product?url=${encodeURIComponent(productURL)}`
-      ),
+    queryKey: ['product', productURL],
+    queryFn: () => fetchCatchingError(`/product?url=${encodeURIComponent(productURL)}`),
     onError: toastError,
     enabled,
   })
