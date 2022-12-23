@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 import toast from 'react-hot-toast'
 
-import { NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY } from '../common/constants'
+import { NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY } from '../common/constants'
 import { localStorage, sessionStorage } from '../common/constants'
 import { fetchWithJWT } from '../common/utils'
 import { bootChanneltalk } from './ChannelTalk'
@@ -23,13 +23,13 @@ export default function Authentication({ children }: Props) {
       localStorage?.removeItem('jwt')
       bootChanneltalk({ pluginKey: NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY })
     },
-    onSuccess: ({ username }: any) => {
+    onSuccess: (user) => {
       bootChanneltalk({
         pluginKey: NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY,
         // memberId: myNickname.id, // 채널톡-자유담 회원 정보 연동 필요
-        ...(username && {
+        ...(user?.username && {
           profile: {
-            name: username,
+            name: user.username,
           },
         }),
       })

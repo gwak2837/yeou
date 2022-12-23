@@ -19,17 +19,13 @@ self.addEventListener('push', (e) => {
 
   const msg = e.data.json()
   console.log('👀 - pushMessage', msg)
+  if (msg.isFlareLane) return
 
-  const showingNotification = msg.isFlareLane
-    ? self.registration.showNotification(`FlareLane - ${msg.webPushConfig.siteName}`, {
-        body: msg.body,
-        icon: msg.webPushConfig.siteIcon,
-      })
-    : self.registration.showNotification(msg.title, {
-        body: msg.body,
-        icon: msg.sender.imageUrl,
-        data: msg.url,
-      })
+  const showingNotification = self.registration.showNotification(msg.title, {
+    body: msg.body,
+    icon: msg.icon,
+    data: msg.data.url,
+  })
 
   e.waitUntil(showingNotification)
 })
