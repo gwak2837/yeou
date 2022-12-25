@@ -1,3 +1,4 @@
+// 공통
 export const NODE_ENV = process.env.NODE_ENV as string
 export const PROJECT_ENV = process.env.PROJECT_ENV as string
 export const NEXT_PUBLIC_PROJECT_ENV = process.env.NEXT_PUBLIC_PROJECT_ENV as string
@@ -8,9 +9,6 @@ const NEXT_PUBLIC_VERCEL_URL = process.env.NEXT_PUBLIC_VERCEL_URL as string
 const NEXT_PUBLIC_VERCEL_ENV = process.env.NEXT_PUBLIC_VERCEL_ENV as string
 
 export const REVALIDATION_KEY = process.env.REVALIDATION_KEY as string
-
-export const POSTGRES_CONNECTION_STRING = process.env.POSTGRES_CONNECTION_STRING as string
-export const POSTGRES_CA = process.env.POSTGRES_CA as string
 
 export const NEXT_PUBLIC_NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID as string
 
@@ -27,8 +25,14 @@ export const NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY = process.env
 export const NEXT_PUBLIC_FLARE_LANE_PROJECT_ID = process.env
   .NEXT_PUBLIC_FLARE_LANE_PROJECT_ID as string
 
+if (!NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY)
+  throw new Error('`NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY` 환경 변수를 설정해주세요.')
+
+if (!NEXT_PUBLIC_FLARE_LANE_PROJECT_ID)
+  throw new Error('`NEXT_PUBLIC_FLARE_LANE_PROJECT_ID` 환경 변수를 설정해주세요.')
+
 // if (!NEXT_PUBLIC_PROJECT_ENV) throw new Error('`NEXT_PUBLIC_PROJECT_ENV` 환경 변수를 설정해주세요.')
-// if (!NEXT_PUBLIC_BACKEND_URL) throw new Error('`NEXT_PUBLIC_BACKEND_URL` 환경 변수를 설정해주세요.')
+if (!NEXT_PUBLIC_BACKEND_URL) throw new Error('`NEXT_PUBLIC_BACKEND_URL` 환경 변수를 설정해주세요.')
 // if (!NEXT_PUBLIC_VAPID_PUBLIC_KEY)
 //   throw new Error('`NEXT_PUBLIC_VAPID_PUBLIC_KEY` 환경 변수를 설정해주세요.')
 
@@ -52,9 +56,6 @@ export const NEXT_PUBLIC_FLARE_LANE_PROJECT_ID = process.env
 //   throw new Error('`NEXT_PUBLIC_GOOGLE_CLIENT_ID` 환경 변수를 설정해주세요.')
 // if (NEXT_PUBLIC_PROJECT_ENV === 'cloud-prod' && !NEXT_PUBLIC_GOOGLE_ANALYTICS_ID)
 //   throw new Error('`NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` 환경 변수를 설정해주세요.')
-
-// if (!NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY)
-//   throw new Error('`NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY` 환경 변수를 설정해주세요.')
 
 export const APPLICATION_NAME = '새소식 - 쿠팡 알리미' // = site.webmanifest name
 export const APPLICATION_SHORT_NAME = '새소식' // = site.webmanifest short_name
