@@ -59,11 +59,11 @@ export const NEXT_PUBLIC_FLARE_LANE_PROJECT_ID = process.env
 export const APPLICATION_NAME = '새소식 - 쿠팡 알리미' // = site.webmanifest name
 export const APPLICATION_SHORT_NAME = '새소식' // = site.webmanifest short_name
 export const SUBJECT = '쿠팡 가격 변동 알리미'
-export const KEYWORDS = `${APPLICATION_SHORT_NAME},coopang,price,alert,쿠팡,가격,알리미` // 최대 10개
+export const KEYWORDS = `${APPLICATION_SHORT_NAME},coupang,price,alert,쿠팡,가격,알리미` // 최대 10개
 export const AUTHOR = '곽태욱(Taeuk Gwak)'
 export const CANONICAL_URL =
   NEXT_PUBLIC_VERCEL_ENV === 'production'
-    ? 'https://coopang.vercel.app'
+    ? 'https://yeou.vercel.app'
     : NEXT_PUBLIC_VERCEL_ENV === 'preview'
     ? `https://${NEXT_PUBLIC_VERCEL_URL}`
     : 'http://localhost:3000'

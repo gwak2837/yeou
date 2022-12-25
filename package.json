@@ -1,15 +1,15 @@
 {
-  "name": "coopang",
+  "name": "yeou",
   "version": "0.1.0",
-  "description": "coopang",
-  "homepage": "https://coopang.vercel.app",
+  "description": "yeou",
+  "homepage": "https://yeou.vercel.app",
   "bugs": {
-    "url": "https://github.com/rmfpdlxmtidl/coopang/issues",
+    "url": "https://github.com/rmfpdlxmtidl/yeou/issues",
     "email": "gwak2837@kakao.com"
   },
   "license": "GPL-3.0-only",
   "author": "Taeuk Gwak <gwak2837@kakao.com>",
-  "repository": "https://github.com/rmfpdlxmtidl/coopang.git",
+  "repository": "https://github.com/rmfpdlxmtidl/yeou.git",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
