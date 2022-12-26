@@ -5,8 +5,13 @@ import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
 
 import { fetchWithJWT, toastError } from '../common/utils'
+import useCurrentUser from '../hooks/useCurrentUser'
 
 export default function SearchForm() {
+  const user = useCurrentUser()
+  console.log('👀 - user', user)
+
+  // Get product data
   const [productURL, setProductURL] = useState('')
   const [enabled, setEnabled] = useState(false)
 
@@ -31,6 +36,7 @@ export default function SearchForm() {
     setProductURL(e.target.value)
   }
 
+  // Toggle subscription
   const {
     isLoading: isSubscriptionLoading,
     isError: isSubscriptionError,
@@ -59,6 +65,10 @@ export default function SearchForm() {
           검색
         </button>
       </form>
+
+      <pre className="border-2 border-slate-300 overflow-x-auto">
+        {JSON.stringify(user, null, 2)}
+      </pre>
 
       <div>{enabled && isLoading && 'loading...'}</div>
 
