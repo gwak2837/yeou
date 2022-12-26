@@ -1,11 +1,10 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
 
-import { NEXT_PUBLIC_BACKEND_URL } from '../common/constants'
-import { fetchCatchingError, toastError } from '../common/utils'
+import { fetchWithJWT, toastError } from '../common/utils'
 
 export default function SearchForm() {
   const [productURL, setProductURL] = useState('')
@@ -13,9 +12,14 @@ export default function SearchForm() {
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ['product', productURL],
-    queryFn: () => fetchCatchingError(`/product?url=${encodeURIComponent(productURL)}`),
-    onError: toastError,
+    queryFn: () => fetchWithJWT(`/product?url=${encodeURIComponent(productURL)}`),
     enabled,
+    onError: (error: any) => {
+      setEnabled(false)
+      toastError(error)
+    },
+    onSuccess: () => setEnabled(false),
+    retry: false,
   })
 
   function search(e: any) {
@@ -24,10 +28,18 @@ export default function SearchForm() {
   }
 
   function changeProductURL(e: ChangeEvent<HTMLInputElement>) {
-    const url = e.target.value
-    setProductURL(url)
-    if (!url) setEnabled(false)
+    setProductURL(e.target.value)
   }
+
+  const {
+    isLoading: isSubscriptionLoading,
+    isError: isSubscriptionError,
+    mutate,
+  } = useMutation({
+    mutationFn: (newTodo) => fetchWithJWT(`/product/${data?.id}/subscribe`),
+  })
+
+  function toggleSubscription() {}
 
   return (
     <>
@@ -35,7 +47,6 @@ export default function SearchForm() {
         <input
           className=" w-full	p-2	border-2 border-slate-300 focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
           disabled={enabled && isLoading}
-          // disabled={true}
           onChange={changeProductURL}
           placeholder="URL 주소를 입력해주세요"
           value={productURL}
@@ -53,8 +64,11 @@ export default function SearchForm() {
 
       {!isError && data && (
         <>
-          <button className="bg-fox-700 w-full p-2 my-4 text-white font-semibold text-xl">
-            알림받기
+          <button
+            className="bg-fox-700 w-full p-2 my-4 text-white font-semibold text-xl"
+            onClick={toggleSubscription}
+          >
+            {data.isSubscribed ? '알림끊기' : '알림받기'}
           </button>
           <pre className="border-2 border-slate-300 overflow-x-auto">
             {JSON.stringify(data, null, 2)}

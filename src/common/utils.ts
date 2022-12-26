@@ -13,8 +13,7 @@ export async function fetchWithJWT(input: RequestInfo | URL, init?: RequestInit)
     else (init.headers as Record<string, string>).Authorization = Authorization
   }
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${input}`, init)
-  return await response.json()
+  return fetchCatchingError(input, init)
 }
 
 // eslint-disable-next-line no-undef
