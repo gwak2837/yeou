@@ -27,3 +27,5 @@ export async function fetchCatchingError(input: RequestInfo | URL, init?: Reques
 export function toastError(error: Error) {
   toast.error(error.message)
 }
+
+export const formatKoreaPrice = new Intl.NumberFormat('ko-KR').format

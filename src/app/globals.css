@@ -6,23 +6,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --mobile-min-width: 320px;
-  --mobile-min-height: 568px;
-  --tablet-min-width_1: 767px;
-  --tablet-min-width: 768px;
-  --tablet-max-width: 1366px;
-  --desktop-min-width: 1440px;
-  --hd-desktop-min-width: 1920px;
-}
-
 html,
 body {
   font-size: 16px;
   padding: 0;
   margin: 0;
   line-height: normal;
-  word-break: keep-all;
 }
 
 @media (min-width: 768px) {
