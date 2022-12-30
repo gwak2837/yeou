@@ -22,6 +22,7 @@
   "dependencies": {
     "@flarelane/flarelane-web-sdk": "^0.2.3",
     "@next/font": "^13.0.7",
+    "@svgr/webpack": "^6.5.1",
     "@tanstack/react-query": "^4.20.4",
     "lru-cache": "^7.14.1",
     "next": "13.0.7",

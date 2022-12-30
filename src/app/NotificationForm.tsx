@@ -1,18 +1,30 @@
 import { useMutation } from '@tanstack/react-query'
 import { ChangeEvent, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
 
-import { fetchWithJWT, formatKoreaPrice } from '../common/utils'
+import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
+import LoadingSpinner from '../components/LoadingSpinner'
+import XIcon from '../svgs/x.svg'
 import { Product } from './SearchForm'
 
 type Props = {
   product: Product
 }
 
-type Input = Product['notificationCondition']
-type Price = Input['prices'][number]
+type Condition = {
+  prices: Price[]
+  hasCardDiscount: boolean
+  hasCouponDiscount: boolean
+  canBuy: boolean
+}
+
+type Price = {
+  limit: number
+  fluctuation: 'more' | 'less'
+  unit: number
+}
 
 export default function NotificationForm({ product }: Props) {
   const condition = product.notificationCondition
@@ -23,81 +35,79 @@ export default function NotificationForm({ product }: Props) {
     handleSubmit,
     setValue,
     watch,
-  } = useForm<Input>({
+  } = useForm<Condition>({
     defaultValues: {
-      prices: condition.prices,
-      hasCardDiscount: condition.hasCardDiscount ?? false,
-      hasCouponDiscount: condition.hasCouponDiscount ?? false,
-      canBuy: condition.canBuy ?? false,
+      prices: condition?.prices ?? [],
+      hasCardDiscount: condition?.hasCardDiscount ?? false,
+      hasCouponDiscount: condition?.hasCouponDiscount ?? false,
+      canBuy: condition?.canBuy ?? false,
     },
   })
 
-  const setValueDirty = (name: any, value: any) => setValue(name, value, { shouldDirty: true })
+  const setValueDirty = (
+    name: Parameters<typeof setValue>[0],
+    value: Parameters<typeof setValue>[1]
+  ) => setValue(name, value, { shouldDirty: true })
 
   const prices = watch('prices')
   const hasCardDiscount = watch('hasCardDiscount')
   const hasCouponDiscount = watch('hasCouponDiscount')
   const canBuy = watch('canBuy')
 
-  // Toggle notification
+  const isConditionEmpty = prices.length === 0 && !hasCardDiscount && !hasCouponDiscount && !canBuy
+
+  // Toggle notification condition
   const {
     isLoading: isSubscriptionLoading,
     isError: isSubscriptionError,
     mutate,
   } = useMutation<any, any, any>({
-    mutationFn: (productId) =>
+    mutationFn: ({ productId, condition }) =>
       fetchWithJWT(`/product/${productId}/subscribe`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify([condition.current]),
+        body: JSON.stringify(condition),
       }),
-    onSuccess: () => {},
+    onError: toastError,
+    onSuccess: (data) => {
+      console.log('👀 - data', data)
+    },
   })
 
-  function toggleSubscription(input: Input) {
-    mutate(product.id)
+  function toggleSubscription(condition: Condition) {
+    mutate({
+      productId: product.id,
+      condition,
+    })
   }
 
-  // Price limit notification
-  const [limit, setLimit] = useState('')
-  const [unit, setUnit] = useState('')
-
-  function formatLimit(e: ChangeEvent<HTMLInputElement>) {
-    const price = +e.target.value.replaceAll(',', '')
-
-    if (price < 0) return (e.target.value = '0')
-    if (price > 1_000_000_000) return (e.target.value = '1,000,000,000')
-
-    e.target.value = formatKoreaPrice(price)
-  }
-
-  function formatUnit(e: ChangeEvent<HTMLInputElement>) {
-    const price = +e.target.value.replaceAll(',', '')
-
-    if (price < 0) return (e.target.value = '0')
-    if (price > 9_999_999) return (e.target.value = '9,999,999')
-
-    e.target.value = formatKoreaPrice(price)
-  }
+  // Price limit condition
+  const limitInput = useRef<HTMLInputElement>(null)
+  const unitInput = useRef<HTMLInputElement>(null)
 
   function createPriceNotification(e: ChangeEvent<HTMLSelectElement>) {
-    // if (!limitInput.current || !unitInput.current) return
-    // const limit = +limitInput.current.value.replaceAll(',', '')
-    // if (!limit) {
-    //   e.target.value = ''
-    //   return toast.error('지정가를 입력해주세요')
-    // }
-    // const unit = +unitInput.current.value.replaceAll(',', '')
-    // if (!unit) {
-    //   e.target.value = ''
-    //   return toast.error('단위를 입력해주세요')
-    // }
-    // const fluctuation = e.target.value as 'more' | 'less'
-    // e.target.value = ''
-    // const hasSameCondition = prices.some(
-    //   (p) => p.limit === +limit && p.unit === +unit && p.fluctuation === fluctuation
-    // )
-    // if (hasSameCondition) return toast.error('이미 같은 조건의 알림이 존재합니다')
-    // setValue('prices', [...prices, { limit: +limit, fluctuation, unit: +unit }])
+    if (!limitInput.current || !unitInput.current) return
+
+    const limit = +limitInput.current.value.replaceAll(',', '')
+    const unit = +unitInput.current.value.replaceAll(',', '')
+    const fluctuation = e.target.value as 'more' | 'less'
+    e.target.value = ''
+
+    if (!limit) {
+      return toast.error('지정가를 입력해주세요')
+    } else if (!unit) {
+      return toast.error('단위를 입력해주세요')
+    } else if (unit < 100) {
+      return toast.error('단위가 100원 미만입니다')
+    } else if (unit % 100 !== 0) {
+      return toast.error('단위는 100원 단위로 입력해주세요')
+    } else if (
+      prices.some((p) => p.limit === +limit && p.unit === +unit && p.fluctuation === fluctuation)
+    ) {
+      return toast.error('이미 같은 조건의 알림이 존재합니다')
+    }
+
+    setValueDirty('prices', [...prices, { limit: +limit, unit: +unit, fluctuation }])
   }
 
   function deletePriceNotification(price: Price) {
@@ -106,7 +116,7 @@ export default function NotificationForm({ product }: Props) {
     return () => setValueDirty('prices', prices.filter(selectedPrice))
   }
 
-  // Other notification
+  // Other condition
   const [notificationType, setNotificationType] = useState('price')
 
   function createCondition(e: ChangeEvent<HTMLSelectElement>) {
@@ -147,9 +157,20 @@ export default function NotificationForm({ product }: Props) {
                     className="border p-2 w-32 focus:outline-fox-600"
                     inputMode="numeric"
                     placeholder="지정가"
+                    ref={limitInput}
                     {...props}
                   />
                 )}
+                isAllowed={({ value }) => {
+                  if (+value < 0) {
+                    toast.error('지정가가 0원 미만일 수 없습니다')
+                    return false
+                  } else if (+value > 1_000_000_000) {
+                    toast.error('지정가가 10억원을 초과할 수 없습니다')
+                    return false
+                  }
+                  return true
+                }}
                 thousandsGroupStyle="thousand"
                 thousandSeparator=","
               />
@@ -162,10 +183,17 @@ export default function NotificationForm({ product }: Props) {
                     className="border p-2 w-24 focus:outline-fox-600"
                     inputMode="numeric"
                     placeholder="단위"
+                    ref={unitInput}
                     {...props}
                   />
                 )}
-                // suffix="00"
+                isAllowed={({ value }) => {
+                  if (+value >= 10_000_000) {
+                    toast.error('단위가 1천만원 이상일 수 없습니다')
+                    return false
+                  }
+                  return true
+                }}
                 thousandsGroupStyle="thousand"
                 thousandSeparator=","
               />
@@ -196,51 +224,58 @@ export default function NotificationForm({ product }: Props) {
         )}
       </div>
 
-      {(hasCardDiscount || hasCouponDiscount || canBuy) && (
-        <ul className="my-4 grid gap-2">
-          {prices.map((price) => (
-            <li
-              key={`${price.limit}${price.unit}${price.fluctuation}`}
-              className="cursor-pointer p-2 hover:bg-slate-100"
-              onClick={deletePriceNotification(price)}
-            >
-              (X) 제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원
+      <ul className="my-4 grid gap-2">
+        {prices.map((price) => (
+          <li
+            key={`${price.limit}-${price.unit}-${price.fluctuation}`}
+            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+            onClick={deletePriceNotification(price)}
+          >
+            <XIcon width="1rem" />
+            <div>
+              제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원
               단위로 {price.fluctuation === 'more' ? '상승' : '하락'}할 때마다
-            </li>
-          ))}
-          {hasCardDiscount && (
-            <li
-              className="cursor-pointer p-2 hover:bg-slate-100"
-              onClick={() => setValueDirty('hasCardDiscount', false)}
-            >
-              (X) 카드 할인이 제품에 생겼을 때
-            </li>
-          )}
-          {hasCouponDiscount && (
-            <li
-              className="cursor-pointer p-2 hover:bg-slate-100"
-              onClick={() => setValueDirty('hasCouponDiscount', false)}
-            >
-              (X) 쿠폰 할인이 제품에 생겼을 때
-            </li>
-          )}
-          {canBuy && (
-            <li
-              className="cursor-pointer p-2 hover:bg-slate-100"
-              onClick={() => setValueDirty('canBuy', false)}
-            >
-              (X) 품절된 제품이 재입고됐을 때
-            </li>
-          )}
-        </ul>
-      )}
+            </div>
+          </li>
+        ))}
+        {hasCardDiscount && (
+          <li
+            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+            onClick={() => setValueDirty('hasCardDiscount', false)}
+          >
+            <XIcon width="1rem" />
+            <div>카드 할인이 제품에 생겼을 때</div>
+          </li>
+        )}
+        {hasCouponDiscount && (
+          <li
+            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+            onClick={() => setValueDirty('hasCouponDiscount', false)}
+          >
+            <XIcon width="1rem" />
+            <div>쿠폰 할인이 제품에 생겼을 때</div>
+          </li>
+        )}
+        {canBuy && (
+          <li
+            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+            onClick={() => setValueDirty('canBuy', false)}
+          >
+            <XIcon width="1rem" />
+            <div>품절된 제품이 재입고됐을 때</div>
+          </li>
+        )}
+      </ul>
 
       <button
-        className="bg-fox-700 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
+        className="bg-fox-700 my-4 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
         disabled={!isDirty || isSubscriptionLoading}
         type="submit"
       >
-        {isSubscriptionLoading && <div>로딩스피너</div>} {'알림끊기/알림받기'}
+        <div className="flex gap-2 justify-center items-center">
+          {isSubscriptionLoading && <LoadingSpinner />}
+          <div>{isConditionEmpty ? '알림끊기' : '알림받기'}</div>
+        </div>
       </button>
     </form>
   )

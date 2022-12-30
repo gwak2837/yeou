@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ChangeEvent, useState } from 'react'
 
 import { fetchWithJWT, toastError } from '../common/utils'
+import LoadingSpinner from '../components/LoadingSpinner'
 import Username from '../components/Username'
 import useCurrentUser from '../hooks/useCurrentUser'
 import NotificationForm from './NotificationForm'
@@ -31,10 +32,12 @@ export type Product = {
         condition: string
       }[]
     | null
-  creditCards:
+  cardDiscounts:
     | {
-        discount: string
-        companies: string[]
+        company: string
+        absolute: number
+        relative: number
+        onlyWOW: boolean
       }[]
     | null
   imageUrl: string
@@ -49,10 +52,10 @@ export type Product = {
     hasCardDiscount: boolean
     hasCouponDiscount: boolean
     canBuy: boolean
-  }
+  } | null
 }
 
-const product = {
+const product: Product = {
   id: '1',
   name: '팜즈 에어팟맥스 호환 헤드셋 거치대',
   options: [
@@ -67,7 +70,7 @@ const product = {
   reward: 792,
   minimumPrice: 15048,
   coupons: null,
-  creditCards: null,
+  cardDiscounts: null,
   imageUrl: 'https://item.coupangcdn.com',
   reviewCount: 42,
   isOutOfStock: false,
@@ -91,15 +94,12 @@ const product = {
 }
 
 export default function SearchForm() {
-  const user = useCurrentUser()
-  console.log('👀 - user', user)
-
   // Get product data
   const [productURL, setProductURL] = useState('')
   const [enabled, setEnabled] = useState(false)
 
   const {
-    data: product1,
+    data: product,
     isError,
     isLoading,
   } = useQuery<Product>({
@@ -140,7 +140,10 @@ export default function SearchForm() {
           disabled={!productURL || (enabled && isLoading)}
           type="submit"
         >
-          {enabled && isLoading && <div>로딩스피너</div>} 검색
+          <div className="flex gap-2 justify-center items-center">
+            {enabled && isLoading && <LoadingSpinner />}
+            <div>검색</div>
+          </div>
         </button>
       </form>
 

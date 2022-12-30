@@ -14,7 +14,7 @@ export default function HomePage() {
         <h5 className="text-sm">
           본 사이트는 쿠팡 파트너스 · 오늘의집 큐레이터 · 11번가 머니백 활동의 일환으로, 제휴 링크를
           통해 구매 시 이에 따른 일정액의 수수료를 제공받습니다. 이렇게 발생한 수익은 서버 유지비로
-          사용됩니다.
+          사용됩니다. 회원가입 후 설정에서 제휴 링크를 일반 링크로 변경할 수 있습니다.
         </h5>
         <h3>Copyright © {new Date().getUTCFullYear()} LobinReview</h3>
         <h4>All rights reserved.</h4>

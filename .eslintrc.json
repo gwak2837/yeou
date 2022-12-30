@@ -18,6 +18,8 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "no-undef": "warn",
     "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
-    "prefer-const": "off"
+    "prefer-const": "off",
+
+    "react/display-name": "off"
   }
 }
