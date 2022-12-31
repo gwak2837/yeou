@@ -7,11 +7,10 @@ import { NumericFormat } from 'react-number-format'
 import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import XIcon from '../svgs/x.svg'
-import { Product } from './SearchForm'
+import { ProductPlaceholder } from './SearchForm'
 
 type Props = {
-  product: Product
-  isFetching: boolean
+  product: ProductPlaceholder
 }
 
 type Condition = {
@@ -31,6 +30,7 @@ export default memo(NotificationForm)
 
 function NotificationForm({ product }: Props) {
   const condition = product.notificationCondition
+  const { isPlaceholder } = product
 
   // Notification subscription inputs
   const {
@@ -142,10 +142,17 @@ function NotificationForm({ product }: Props) {
     }
   }
 
+  // Style
+  const isFetchingStyle = isPlaceholder ? 'border-2 bg-slate-50 my-4' : ''
+
   return (
-    <form onSubmit={handleSubmit(toggleSubscription)}>
+    <form className={isFetchingStyle} onSubmit={handleSubmit(toggleSubscription)}>
+      {isPlaceholder && <h3 className="border-b-2 text-center p-2">예시 화면</h3>}
       <div className="flex gap-2 items-center w-full  my-4 px-2 whitespace-nowrap flex-wrap">
-        <select className="p-2 border w-28 focus:outline-fox-600" onChange={createCondition}>
+        <select
+          className="p-2 border w-28 focus:outline-fox-600 cursor-pointer"
+          onChange={createCondition}
+        >
           <option value="price">제품 가격이</option>
           <option value="card-discount">카드 할인이</option>
           <option value="coupon-discount">쿠폰 할인이</option>
@@ -200,11 +207,11 @@ function NotificationForm({ product }: Props) {
                 thousandsGroupStyle="thousand"
                 thousandSeparator=","
               />
-              <span>원 단위로</span>
+              <span>원씩</span>
             </div>
             <div className="flex gap-2 items-center">
               <select
-                className="p-2 border w-20 focus:outline-fox-600"
+                className="p-2 border w-20 focus:outline-fox-600 cursor-pointer"
                 defaultValue=""
                 name="fluctuation"
                 onChange={createPriceNotification}
@@ -237,8 +244,8 @@ function NotificationForm({ product }: Props) {
             >
               <XIcon width="1rem" />
               <div>
-                제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원
-                단위로 {price.fluctuation === 'more' ? '상승' : '하락'}할 때마다
+                제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원씩{' '}
+                {price.fluctuation === 'more' ? '상승' : '하락'}할 때마다
               </div>
             </li>
           ))}
@@ -274,7 +281,7 @@ function NotificationForm({ product }: Props) {
 
       <button
         className="bg-fox-700 my-4 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
-        disabled={!isDirty || isSubscriptionLoading}
+        disabled={isPlaceholder || !isDirty || isSubscriptionLoading}
         type="submit"
       >
         <div className="flex gap-2 justify-center items-center">

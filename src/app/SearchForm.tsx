@@ -71,7 +71,7 @@ export default function SearchForm() {
 
       {product && (
         <>
-          <NotificationForm product={product} isFetching={isFetching} />
+          <NotificationForm product={product as ProductPlaceholder} />
           <SearchResult product={product as ProductPlaceholder} isFetching={isFetching} />
         </>
       )}
