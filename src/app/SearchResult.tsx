@@ -16,26 +16,33 @@ type Props = {
 export default memo(SearchResult)
 
 function SearchResult({ product, isFetching }: Props) {
-  const saleOrCouponPrice = product.couponPrice ?? product.salePrice
-  const originalPrice = product.originalPrice ?? saleOrCouponPrice
   const {
+    originalPrice,
+    salePrice,
+    couponPrice,
     cards,
     maximumCardDiscount,
     coupons,
+    reward,
     maximumDiscount,
     minimumPrice,
     isOutOfStock,
     isPlaceholder,
   } = product
+  const couponOrSalePrice = couponPrice ?? salePrice
+  const originalOrCouponOrSalePrice = originalPrice ?? couponOrSalePrice
 
   const isFetchingStyle = isFetching
     ? 'border-2 bg-[linear-gradient(90deg,#cfd8dc50,#cfd8dca0,#cfd8dc50)] bg-[length:600%_600%] animate-[skeleton_3s_ease_infinite]'
     : isPlaceholder
     ? 'border-2 bg-slate-50'
     : ''
-  const rewardStyle = maximumDiscount !== product.reward ? 'text-slate-400 line-through' : ''
+  const rewardStyle = maximumDiscount !== reward ? 'text-slate-400 line-through' : ''
   const cardDiscountStyle =
     maximumDiscount !== maximumCardDiscount ? 'text-slate-400 line-through' : ''
+  const minimumPriceStyle = `${
+    isOutOfStock ? 'text-slate-400 line-through text-2xl' : 'text-fox-700 text-4xl'
+  }`
 
   return (
     <div className={isFetchingStyle}>
@@ -49,21 +56,13 @@ function SearchResult({ product, isFetching }: Props) {
             <h5 className="text-sm ">{product.reviewCount}</h5>
           </a>
           <div className="my-2">
-            {originalPrice && originalPrice !== minimumPrice && (
+            {originalOrCouponOrSalePrice && originalOrCouponOrSalePrice !== minimumPrice && (
               <h5 className="text-sm text-slate-400 line-through">
-                {formatKoreaPrice(originalPrice)}원
+                {formatKoreaPrice(originalOrCouponOrSalePrice)}원
               </h5>
             )}
-            <h1
-              className={
-                'text-4xl ' + (isOutOfStock ? 'text-slate-400 line-through' : 'text-fox-700')
-              }
-            >
-              {isOutOfStock
-                ? '품절'
-                : minimumPrice === 0
-                ? '무료'
-                : `${formatKoreaPrice(minimumPrice)}원`}
+            <h1 className={minimumPriceStyle}>
+              {formatKoreaPrice(minimumPrice)}원 {isOutOfStock && '(품절)'}
             </h1>
             <div className="border w-full my-4" />
             <table className="w-full t">
@@ -74,20 +73,20 @@ function SearchResult({ product, isFetching }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {product.originalPrice && (
-                  <tr className={saleOrCouponPrice ? 'text-slate-400 line-through' : ''}>
+                {originalPrice && (
+                  <tr className={couponOrSalePrice ? 'text-slate-400 line-through' : ''}>
                     <td className="flex gap-2 items-center">
                       <PriceIcon width="1rem" /> 정가
                     </td>
-                    <td className="text-right">{formatKoreaPrice(product.originalPrice)}원</td>
+                    <td className="text-right">{formatKoreaPrice(originalPrice)}원</td>
                   </tr>
                 )}
-                {saleOrCouponPrice && (
+                {couponOrSalePrice && (
                   <tr>
                     <td className="flex gap-2 items-center">
                       <SaleIcon width="1rem" /> 할인가
                     </td>
-                    <td className="text-right">{formatKoreaPrice(saleOrCouponPrice)}원</td>
+                    <td className="text-right">{formatKoreaPrice(couponOrSalePrice)}원</td>
                   </tr>
                 )}
                 {maximumDiscount && (
@@ -96,7 +95,7 @@ function SearchResult({ product, isFetching }: Props) {
                       <td className="flex gap-2 items-center">
                         <CoinIcon width="1rem" /> 적립금
                       </td>
-                      <td className="text-right">-{formatKoreaPrice(product.reward ?? 0)}원</td>
+                      <td className="text-right">-{formatKoreaPrice(reward ?? 0)}원</td>
                     </tr>
                     <tr className={cardDiscountStyle}>
                       <td className="flex gap-2 items-center">
@@ -111,7 +110,8 @@ function SearchResult({ product, isFetching }: Props) {
                 <tr className="text-fox-700">
                   <td className="flex gap-2 items-center">최종가</td>
                   <td className="text-right">
-                    {formatKoreaPrice((saleOrCouponPrice ?? 0) - (maximumDiscount ?? 0))}원
+                    {formatKoreaPrice((couponOrSalePrice ?? 0) - (maximumDiscount ?? 0))}원{' '}
+                    {isOutOfStock && '(품절)'}
                   </td>
                 </tr>
               </tbody>

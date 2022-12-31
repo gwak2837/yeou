@@ -13,11 +13,11 @@ export async function fetchWithJWT(input: RequestInfo | URL, init?: RequestInit)
     else (init.headers as Record<string, string>).Authorization = Authorization
   }
 
-  return fetchCatchingError(input, init)
+  return fetchThrowingError(input, init)
 }
 
 // eslint-disable-next-line no-undef
-export async function fetchCatchingError(input: RequestInfo | URL, init?: RequestInit) {
+export async function fetchThrowingError(input: RequestInfo | URL, init?: RequestInit) {
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${input}`, init)
   const result = await response.json()
   if (!response.ok) throw new Error(result.message)

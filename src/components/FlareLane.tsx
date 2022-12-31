@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { NEXT_PUBLIC_FLARE_LANE_PROJECT_ID, NODE_ENV } from '../common/constants'
-import { fetchCatchingError } from '../common/utils'
+import { fetchThrowingError } from '../common/utils'
 
 export default function FlareLane() {
   const [mustRefetchUser, setMustRefetchUser] = useState(false)
@@ -22,7 +22,7 @@ export default function FlareLane() {
       FlarelaneSDK.getDeviceId(async (deviceId) => {
         if (!deviceId) return
 
-        const { jwt } = await fetchCatchingError('/auth/flare-lane', {
+        const { jwt } = await fetchThrowingError('/auth/flare-lane', {
           headers: { 'device-id': deviceId },
         })
 

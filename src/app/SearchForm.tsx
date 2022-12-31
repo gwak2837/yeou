@@ -1,6 +1,6 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ChangeEvent, useState } from 'react'
 
 import { fetchWithJWT, toastError } from '../common/utils'
@@ -19,20 +19,29 @@ export default function SearchForm() {
     isFetching,
   } = useQuery<Product>({
     queryKey: ['product', productURL],
-    queryFn: () => fetchWithJWT(`/product?url=${encodeURIComponent(productURL)}`),
+    queryFn: ({ signal }) =>
+      fetchWithJWT(`/product?url=${encodeURIComponent(productURL)}`, { signal }),
     enabled,
-    onError: (error: any) => {
+    onError: (error) => {
       setEnabled(false)
-      toastError(error)
+      toastError(error as Error)
     },
     onSuccess: () => setEnabled(false),
     placeholderData: productPlaceholder,
     retry: false,
   })
 
+  const queryClient = useQueryClient()
+
   function search(e: any) {
     e.preventDefault()
-    setEnabled(true)
+
+    if (isFetching) {
+      queryClient.cancelQueries({ queryKey: ['product', productURL] })
+      setEnabled(false)
+    } else {
+      setEnabled(true)
+    }
   }
 
   function changeProductURL(e: ChangeEvent<HTMLInputElement>) {
@@ -53,21 +62,17 @@ export default function SearchForm() {
         </div>
         <button
           className="bg-fox-700 w-full p-2 my-4 text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
-          disabled={!productURL || (enabled && isFetching)}
+          disabled={!productURL}
           type="submit"
         >
           <div className="flex gap-2 justify-center items-center">
-            {enabled && isFetching && <LoadingSpinner />}
-            <div>검색</div>
+            {isFetching && <LoadingSpinner />}
+            <div>{isFetching ? '검색 취소' : '검색'}</div>
           </div>
         </button>
       </form>
 
-      {error && (
-        <pre className="border-2 border-slate-300 overflow-x-auto">
-          {JSON.stringify(error, null, 2)}
-        </pre>
-      )}
+      {error && <pre className="border-2 border-slate-300 overflow-x-auto">{error.toString()}</pre>}
 
       {product && (
         <>
