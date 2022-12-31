@@ -66,7 +66,7 @@ export default function NotificationForm({ product }: Props) {
       fetchWithJWT(`/product/${productId}/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(condition),
+        body: condition ? JSON.stringify(condition) : null,
       }),
     onError: toastError,
     onSuccess: (data) => {
@@ -77,7 +77,7 @@ export default function NotificationForm({ product }: Props) {
   function toggleSubscription(condition: Condition) {
     mutate({
       productId: product.id,
-      condition,
+      condition: isConditionEmpty ? null : condition,
     })
   }
 
@@ -224,48 +224,50 @@ export default function NotificationForm({ product }: Props) {
         )}
       </div>
 
-      <ul className="my-4 grid gap-2">
-        {prices.map((price) => (
-          <li
-            key={`${price.limit}-${price.unit}-${price.fluctuation}`}
-            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
-            onClick={deletePriceNotification(price)}
-          >
-            <XIcon width="1rem" />
-            <div>
-              제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원
-              단위로 {price.fluctuation === 'more' ? '상승' : '하락'}할 때마다
-            </div>
-          </li>
-        ))}
-        {hasCardDiscount && (
-          <li
-            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
-            onClick={() => setValueDirty('hasCardDiscount', false)}
-          >
-            <XIcon width="1rem" />
-            <div>카드 할인이 제품에 생겼을 때</div>
-          </li>
-        )}
-        {hasCouponDiscount && (
-          <li
-            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
-            onClick={() => setValueDirty('hasCouponDiscount', false)}
-          >
-            <XIcon width="1rem" />
-            <div>쿠폰 할인이 제품에 생겼을 때</div>
-          </li>
-        )}
-        {canBuy && (
-          <li
-            className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
-            onClick={() => setValueDirty('canBuy', false)}
-          >
-            <XIcon width="1rem" />
-            <div>품절된 제품이 재입고됐을 때</div>
-          </li>
-        )}
-      </ul>
+      {!isConditionEmpty && (
+        <ul className="my-4 grid gap-2">
+          {prices.map((price) => (
+            <li
+              key={`${price.limit}-${price.unit}-${price.fluctuation}`}
+              className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+              onClick={deletePriceNotification(price)}
+            >
+              <XIcon width="1rem" />
+              <div>
+                제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원
+                단위로 {price.fluctuation === 'more' ? '상승' : '하락'}할 때마다
+              </div>
+            </li>
+          ))}
+          {hasCardDiscount && (
+            <li
+              className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+              onClick={() => setValueDirty('hasCardDiscount', false)}
+            >
+              <XIcon width="1rem" />
+              <div>카드 할인이 제품에 생겼을 때</div>
+            </li>
+          )}
+          {hasCouponDiscount && (
+            <li
+              className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+              onClick={() => setValueDirty('hasCouponDiscount', false)}
+            >
+              <XIcon width="1rem" />
+              <div>쿠폰 할인이 제품에 생겼을 때</div>
+            </li>
+          )}
+          {canBuy && (
+            <li
+              className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
+              onClick={() => setValueDirty('canBuy', false)}
+            >
+              <XIcon width="1rem" />
+              <div>품절된 제품이 재입고됐을 때</div>
+            </li>
+          )}
+        </ul>
+      )}
 
       <button
         className="bg-fox-700 my-4 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"

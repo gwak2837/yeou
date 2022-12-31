@@ -21,6 +21,7 @@ body {
   }
 }
 
+/*
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -30,6 +31,7 @@ body {
     background: black;
   }
 }
+*/
 
 button {
   cursor: pointer;
@@ -46,17 +48,15 @@ p {
 }
 
 a {
-  font-weight: 500;
+  color: #7c3e03;
+  cursor: pointer;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+}
 
-  :focus,
-  :hover {
-    text-decoration: underline;
-  }
-
-  color: inherit;
-  text-decoration: none;
+a:focus,
+a:hover {
+  text-decoration: underline;
 }
 
 textarea {

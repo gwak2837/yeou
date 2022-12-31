@@ -10,6 +10,8 @@ export default function HomePage() {
       <main className="py-16 max-w-screen-md mx-auto">
         <SearchForm />
       </main>
+      <Username />
+      {/* 사이트 설명 넣기 */}
       <footer className="grid gap-4 p-4 bg-slate-100">
         <h5 className="text-sm">
           본 사이트는 쿠팡 파트너스 · 오늘의집 큐레이터 · 11번가 머니백 활동의 일환으로, 제휴 링크를
@@ -21,16 +23,16 @@ export default function HomePage() {
 
         <div className="flex flex-wrap items-center gap-x-4">
           <a href="https://notion.site" target="_blank" rel="noreferrer">
-            <h5>자주 묻는 질문</h5>
+            자주 묻는 질문
           </a>
           <a href="https://notion.site/" target="_blank" rel="noreferrer">
-            <h5>이용약관</h5>
+            이용약관
           </a>
           <a href="https://notion.site/" target="_blank" rel="noreferrer">
-            <h5>개인정보처리방침</h5>
+            개인정보처리방침
           </a>
           <a href="https://notion.site" target="_blank" rel="noreferrer">
-            <h5>새소식 운영원칙</h5>
+            새소식 운영원칙
           </a>
         </div>
 

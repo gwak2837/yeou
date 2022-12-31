@@ -24,15 +24,7 @@ export type Product = {
   originalPrice: number | null
   salePrice: number | null
   couponPrice: number | null
-  reward: number | null
-  minimumPrice: number | null
-  coupons:
-    | {
-        discount: string
-        condition: string
-      }[]
-    | null
-  cardDiscounts:
+  cards:
     | {
         company: string
         absolute: number
@@ -40,7 +32,17 @@ export type Product = {
         onlyWOW: boolean
       }[]
     | null
+  coupons:
+    | {
+        discount: string
+        condition: string
+      }[]
+    | null
+  reward: number | null
+  maximumDiscount: number | null
+  minimumPrice: number
   imageUrl: string
+  reviewURL: string
   reviewCount: number
   isOutOfStock: boolean
   notificationCondition: {
@@ -68,10 +70,12 @@ const product: Product = {
   salePrice: 15840,
   couponPrice: null,
   reward: 792,
+  maximumDiscount: 792,
   minimumPrice: 15048,
   coupons: null,
-  cardDiscounts: null,
+  cards: null,
   imageUrl: 'https://item.coupangcdn.com',
+  reviewURL: 'https://item.coupangcdn.com#sdpReview',
   reviewCount: 42,
   isOutOfStock: false,
   notificationCondition: {
@@ -146,8 +150,6 @@ export default function SearchForm() {
           </div>
         </button>
       </form>
-
-      <Username />
 
       {!isError && product && <NotificationForm product={product} />}
       {!isError && product && <SearchResult product={product} />}
