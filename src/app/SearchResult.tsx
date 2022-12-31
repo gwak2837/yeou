@@ -1,26 +1,45 @@
-import { isError, useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
-import { ChangeEvent, useMemo, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { memo } from 'react'
 
-import { fetchWithJWT, formatKoreaPrice } from '../common/utils'
+import { formatKoreaPrice } from '../common/utils'
 import CoinIcon from '../svgs/coin.svg'
 import CreditCardIcon from '../svgs/credit-card.svg'
 import PriceIcon from '../svgs/price.svg'
 import SaleIcon from '../svgs/sale.svg'
-import { Product } from './SearchForm'
+import { ProductPlaceholder } from './SearchForm'
 
 type Props = {
-  product: Product
+  product: ProductPlaceholder
+  isFetching: boolean
 }
 
-export default function SearchResult({ product }: Props) {
+export default memo(SearchResult)
+
+function SearchResult({ product, isFetching }: Props) {
   const saleOrCouponPrice = product.couponPrice ?? product.salePrice
   const originalPrice = product.originalPrice ?? saleOrCouponPrice
-  const { cards, coupons, maximumDiscount, minimumPrice, isOutOfStock } = product
+  const {
+    cards,
+    maximumCardDiscount,
+    coupons,
+    maximumDiscount,
+    minimumPrice,
+    isOutOfStock,
+    isPlaceholder,
+  } = product
+
+  const isFetchingStyle = isFetching
+    ? 'border-2 bg-[linear-gradient(90deg,#cfd8dc50,#cfd8dca0,#cfd8dc50)] bg-[length:600%_600%] animate-[skeleton_3s_ease_infinite]'
+    : isPlaceholder
+    ? 'border-2 bg-slate-50'
+    : ''
+  const rewardStyle = maximumDiscount !== product.reward ? 'text-slate-400 line-through' : ''
+  const cardDiscountStyle =
+    maximumDiscount !== maximumCardDiscount ? 'text-slate-400 line-through' : ''
 
   return (
-    <>
+    <div className={isFetchingStyle}>
+      {isPlaceholder && <h3 className="border-b-2 text-center p-2">예시 화면</h3>}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 m-2">
         <Image src={product.imageUrl} alt="cover" width="384" height="384" className="mx-auto" />
         <div>
@@ -73,25 +92,19 @@ export default function SearchResult({ product }: Props) {
                 )}
                 {maximumDiscount && (
                   <>
-                    <tr
-                      className={
-                        maximumDiscount !== product.reward ? 'text-slate-400 line-through' : ''
-                      }
-                    >
+                    <tr className={rewardStyle}>
                       <td className="flex gap-2 items-center">
                         <CoinIcon width="1rem" /> 적립금
                       </td>
                       <td className="text-right">-{formatKoreaPrice(product.reward ?? 0)}원</td>
                     </tr>
-                    <tr
-                      className={
-                        maximumDiscount === product.reward ? 'text-slate-400 line-through' : ''
-                      }
-                    >
+                    <tr className={cardDiscountStyle}>
                       <td className="flex gap-2 items-center">
                         <CreditCardIcon width="1rem" /> 카드할인
                       </td>
-                      <td className="text-right">-{formatKoreaPrice(maximumDiscount)}원</td>
+                      <td className="text-right">
+                        -{formatKoreaPrice(maximumCardDiscount ?? 0)}원
+                      </td>
                     </tr>
                   </>
                 )}
@@ -143,9 +156,9 @@ export default function SearchResult({ product }: Props) {
             </table>
           </>
         )}
-        <br />
         {coupons && (
           <>
+            <br />
             <h3 className="text-xl">쿠폰 할인</h3>
             <pre className="border-2 border-slate-300 overflow-x-auto">
               {JSON.stringify(coupons, null, 2)}
@@ -161,6 +174,6 @@ export default function SearchResult({ product }: Props) {
           text-align: center;
         }
       `}</style>
-    </>
+    </div>
   )
 }

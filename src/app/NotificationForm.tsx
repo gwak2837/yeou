@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, memo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
@@ -11,6 +11,7 @@ import { Product } from './SearchForm'
 
 type Props = {
   product: Product
+  isFetching: boolean
 }
 
 type Condition = {
@@ -26,7 +27,9 @@ type Price = {
   unit: number
 }
 
-export default function NotificationForm({ product }: Props) {
+export default memo(NotificationForm)
+
+function NotificationForm({ product }: Props) {
   const condition = product.notificationCondition
 
   // Notification subscription inputs
