@@ -107,50 +107,52 @@ export default function SearchResult({ product }: Props) {
         </div>
       </div>
       <div className="border w-full my-4" />
-      {cards && (
-        <>
-          <h3 className="text-xl flex gap-2 items-center my-6">
-            <CreditCardIcon width="1.5rem" /> 카드할인 상세
-          </h3>
-          <table className="w-full t t2 border">
-            <thead>
-              <tr className="border-b">
-                <td>카드사</td>
-                <td>할인률</td>
-                <td>최대 할인금액</td>
-                <td>비고</td>
-              </tr>
-            </thead>
-            <tbody>
-              {cards.map((card, i) => (
-                <tr key={i}>
-                  <td>
-                    <Image
-                      src={card.company}
-                      alt="card company logo"
-                      width="100"
-                      height="100"
-                      className="mx-auto"
-                    />
-                  </td>
-                  <td>{card.relative}%</td>
-                  <td>{formatKoreaPrice(card.absolute)}원</td>
-                  <td>{card.onlyWOW && '와우회원 전용'}</td>
+      <div className="m-2">
+        {cards && (
+          <>
+            <h3 className="text-xl flex gap-2 items-center my-6">
+              <CreditCardIcon width="1.5rem" /> 카드할인 상세
+            </h3>
+            <table className="w-full t t2 border">
+              <thead>
+                <tr className="border-b">
+                  <td>카드사</td>
+                  <td>할인률</td>
+                  <td>최대 할인금액</td>
+                  <td>비고</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
-      <br />
-      {coupons && (
-        <>
-          <h3 className="text-xl">쿠폰 할인</h3>
-          <pre className="border-2 border-slate-300 overflow-x-auto">
-            {JSON.stringify(coupons, null, 2)}
-          </pre>
-        </>
-      )}
+              </thead>
+              <tbody>
+                {cards.map((card, i) => (
+                  <tr key={i}>
+                    <td>
+                      <Image
+                        src={card.company}
+                        alt="card company logo"
+                        width="100"
+                        height="100"
+                        className="mx-auto"
+                      />
+                    </td>
+                    <td>{card.relative}%</td>
+                    <td>{formatKoreaPrice(card.absolute)}원</td>
+                    <td>{card.onlyWOW && '와우회원 전용'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+        <br />
+        {coupons && (
+          <>
+            <h3 className="text-xl">쿠폰 할인</h3>
+            <pre className="border-2 border-slate-300 overflow-x-auto">
+              {JSON.stringify(coupons, null, 2)}
+            </pre>
+          </>
+        )}
+      </div>
       <style jsx>{`
         .t td {
           padding: 0.5rem;
