@@ -49,7 +49,7 @@ function SearchResult({ product, isFetching }: Props) {
         </h3>
       )}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 m-2">
-        <Image src={product.imageUrl} alt="cover" width="384" height="384" className="mx-auto" />
+        <Image src={product.imageURL} alt="cover" width="384" height="384" className="mx-auto" />
         <div>
           <h3 className="text-xl my-2">{product.name}</h3>
           <h4 className="my-2">{product.options?.map((option) => option.value).join(', ')}</h4>

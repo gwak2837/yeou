@@ -7,6 +7,8 @@ export type Product = {
         value: string
       }[]
     | null
+  URL: string
+  affiliateLink: string
   originalPrice: number | null
   salePrice: number | null
   couponPrice: number | null
@@ -28,7 +30,7 @@ export type Product = {
   reward: number | null
   maximumDiscount: number | null
   minimumPrice: number
-  imageUrl: string
+  imageURL: string
   reviewURL: string
   reviewCount: string
   isOutOfStock: boolean
@@ -53,6 +55,8 @@ export const productPlaceholder: ProductPlaceholder = {
     { title: '색상', value: '블루' },
     { title: '저장용량 × 태블릿 연결성', value: '64GB × Wi-Fi' },
   ],
+  URL: '',
+  affiliateLink: 'https://link.coupang.com/a/Ksgbf',
   originalPrice: 679000,
   salePrice: null,
   couponPrice: 622900,
@@ -91,7 +95,7 @@ export const productPlaceholder: ProductPlaceholder = {
   reward: 31145,
   maximumDiscount: 62290,
   minimumPrice: 560610,
-  imageUrl:
+  imageURL:
     'https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2363422884128619-2e83f9a6-d11d-4cb5-813d-5d7de0751eb0.jpg',
   reviewURL:
     'https://www.coupang.com/vp/products/6912124565?itemId=16661691663&itemsCount=36&rank=3&vendorItemId=83845338385#sdpReview',
