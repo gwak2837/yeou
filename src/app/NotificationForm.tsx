@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
 
+import { ProductPlaceholder } from '../common/model'
 import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import XIcon from '../svgs/x.svg'
-import { ProductPlaceholder } from './SearchForm'
 
 type Props = {
   product: ProductPlaceholder
@@ -143,11 +143,14 @@ function NotificationForm({ product }: Props) {
   }
 
   // Style
-  const isFetchingStyle = isPlaceholder ? 'border-2 bg-slate-50 my-4' : ''
+  const isPlaceholderStyle = isPlaceholder ? 'border-slate-200' : 'border-transparent'
 
   return (
-    <form className={isFetchingStyle} onSubmit={handleSubmit(toggleSubscription)}>
-      {isPlaceholder && <h3 className="border-b-2 text-center p-2">예시 화면</h3>}
+    <form
+      className={`my-4 border-2 ${isPlaceholderStyle}`}
+      onSubmit={handleSubmit(toggleSubscription)}
+    >
+      {isPlaceholder && <h3 className="border-b-2 border-slate-200 text-center p-2">예시 화면</h3>}
       <div className="flex gap-2 items-center w-full  my-4 px-2 whitespace-nowrap flex-wrap">
         <select
           className="p-2 border w-28 focus:outline-fox-600 cursor-pointer"

@@ -49,10 +49,10 @@ module.exports = {
         },
         skeleton: {
           '0%, 100%': {
-            'background-position': '0 50%',
+            'border-color': 'transparent',
           },
           '50%': {
-            'background-position': '100% 50%',
+            'border-color': '#f98a20',
           },
         },
       },

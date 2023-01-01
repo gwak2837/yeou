@@ -1,188 +1,95 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
+import { Product, ProductPlaceholder, productPlaceholder } from '../common/model'
 import { fetchWithJWT, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import NotificationForm from './NotificationForm'
 import SearchResult from './SearchResult'
 
+type Form = {
+  productURL: string
+}
+
 export default function SearchForm() {
-  // Get product data
-  const [productURL, setProductURL] = useState('')
+  // Form
+  const {
+    formState: { isDirty },
+    handleSubmit,
+    register,
+  } = useForm<Form>({
+    defaultValues: { productURL: '' },
+  })
+
+  // Query
   const [enabled, setEnabled] = useState(false)
+  const [productURLAsKey, setProductURLAsKey] = useState('')
 
   const {
     data: product,
     error,
     isFetching,
   } = useQuery<Product>({
-    queryKey: ['product', productURL],
-    queryFn: ({ signal }) =>
-      fetchWithJWT(`/product?url=${encodeURIComponent(productURL)}`, { signal }),
+    queryKey: ['product', productURLAsKey],
+    queryFn: async ({ signal }) =>
+      fetchWithJWT(`/product?url=${encodeURIComponent(productURLAsKey)}`, { signal }),
     enabled,
+    placeholderData: productPlaceholder,
+    keepPreviousData: true,
     onError: (error) => {
       setEnabled(false)
       toastError(error as Error)
     },
     onSuccess: () => setEnabled(false),
-    placeholderData: productPlaceholder,
     retry: false,
   })
 
   const queryClient = useQueryClient()
 
-  function search(e: any) {
-    e.preventDefault()
-
+  function searchProduct({ productURL }: Form) {
     if (isFetching) {
       queryClient.cancelQueries({ queryKey: ['product', productURL] })
       setEnabled(false)
+      setProductURLAsKey('')
     } else {
       setEnabled(true)
+      setProductURLAsKey(productURL)
     }
-  }
-
-  function changeProductURL(e: ChangeEvent<HTMLInputElement>) {
-    setProductURL(e.target.value)
   }
 
   return (
     <>
-      <form onSubmit={search}>
+      <form onSubmit={handleSubmit(searchProduct)}>
         <div className="p-2">
           <input
             className="w-full	p-2	border-2 border-slate-300 focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
-            disabled={enabled && isFetching}
-            onChange={changeProductURL}
+            disabled={isFetching}
             placeholder="URL 주소를 입력해주세요"
-            value={productURL}
+            {...register('productURL', { required: true })}
           />
         </div>
         <button
-          className="bg-fox-700 w-full p-2 my-4 text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
-          disabled={!productURL}
+          className="bg-fox-700 w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 disabled:cursor-not-allowed"
+          disabled={!isDirty}
           type="submit"
         >
           <div className="flex gap-2 justify-center items-center">
             {isFetching && <LoadingSpinner />}
-            <div>{isFetching ? '검색 취소' : '검색'}</div>
+            <div>{isFetching ? '취소' : '검색'}</div>
           </div>
         </button>
       </form>
 
       {error && <pre className="border-2 border-slate-300 overflow-x-auto">{error.toString()}</pre>}
 
-      {product && (
-        <>
-          <NotificationForm product={product as ProductPlaceholder} />
-          <SearchResult product={product as ProductPlaceholder} isFetching={isFetching} />
-        </>
-      )}
+      <NotificationForm product={(product ?? productPlaceholder) as ProductPlaceholder} />
+      <SearchResult
+        product={(product ?? productPlaceholder) as ProductPlaceholder}
+        isFetching={isFetching}
+      />
     </>
   )
-}
-
-export type Product = {
-  id: string
-  name: string
-  options:
-    | {
-        title: string
-        value: string
-      }[]
-    | null
-  originalPrice: number | null
-  salePrice: number | null
-  couponPrice: number | null
-  cards:
-    | {
-        company: string
-        absolute: number
-        relative: number
-        onlyWOW: boolean
-      }[]
-    | null
-  maximumCardDiscount: number | null
-  coupons:
-    | {
-        discount: string
-        condition: string
-      }[]
-    | null
-  reward: number | null
-  maximumDiscount: number | null
-  minimumPrice: number
-  imageUrl: string
-  reviewURL: string
-  reviewCount: string
-  isOutOfStock: boolean
-  notificationCondition: {
-    prices: {
-      limit: number
-      fluctuation: 'more' | 'less'
-      unit: number
-    }[]
-    hasCardDiscount: boolean
-    hasCouponDiscount: boolean
-    canBuy: boolean
-  } | null
-}
-
-export type ProductPlaceholder = Product & { isPlaceholder: boolean }
-
-const productPlaceholder: ProductPlaceholder = {
-  id: '1',
-  name: 'Apple 정품 2022 아이패드 10세대',
-  options: [
-    { title: '색상', value: '블루' },
-    { title: '저장용량 × 태블릿 연결성', value: '64GB × Wi-Fi' },
-  ],
-  originalPrice: 679000,
-  salePrice: null,
-  couponPrice: 622900,
-  cards: [
-    {
-      company:
-        'https://image6.coupangcdn.com/image/static/common/cardbenefit/20180521/KB-MOBILE-81873725-3561-4cea-a79a-7cef32914869.png',
-      absolute: 63000,
-      relative: 10,
-      onlyWOW: true,
-    },
-    {
-      company:
-        'https://image6.coupangcdn.com/image/static/common/cardbenefit/20210507/LOTTE-MOBILE-2989838a-5d29-4b36-b39c-f7fc07c5f974.jpg',
-      absolute: 24000,
-      relative: 4,
-      onlyWOW: true,
-    },
-    {
-      company:
-        'https://image6.coupangcdn.com/image/static/common/cardbenefit/20170419/HANA_SK-MOBILE-bf9d31ed-1ddd-4286-aa70-6e9882aecdec.png',
-      absolute: 24000,
-      relative: 4,
-      onlyWOW: true,
-    },
-    {
-      company:
-        'https://image6.coupangcdn.com/image/static/common/cardbenefit/20180521/NH-MOBILE-2eeeabd1-2fca-4f85-b4eb-f9d98ca382b8.png',
-      absolute: 35000,
-      relative: 6,
-      onlyWOW: true,
-    },
-  ],
-  maximumCardDiscount: 62290,
-  coupons: null,
-  reward: 31145,
-  maximumDiscount: 62290,
-  minimumPrice: 560610,
-  imageUrl:
-    'https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2363422884128619-2e83f9a6-d11d-4cb5-813d-5d7de0751eb0.jpg',
-  reviewURL:
-    'https://www.coupang.com/vp/products/6912124565?itemId=16661691663&itemsCount=36&rank=3&vendorItemId=83845338385#sdpReview',
-  reviewCount: '111개 상품평',
-  isOutOfStock: false,
-  notificationCondition: null,
-  isPlaceholder: true,
 }

@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import { memo } from 'react'
 
+import { ProductPlaceholder } from '../common/model'
 import { formatKoreaPrice } from '../common/utils'
 import CoinIcon from '../svgs/coin.svg'
 import CreditCardIcon from '../svgs/credit-card.svg'
 import PriceIcon from '../svgs/price.svg'
 import SaleIcon from '../svgs/sale.svg'
-import { ProductPlaceholder } from './SearchForm'
 
 type Props = {
   product: ProductPlaceholder
@@ -32,21 +32,26 @@ function SearchResult({ product, isFetching }: Props) {
   const couponOrSalePrice = couponPrice ?? salePrice
   const originalOrCouponOrSalePrice = originalPrice ?? couponOrSalePrice
 
-  const isFetchingStyle = isFetching
-    ? 'border-2 bg-[linear-gradient(90deg,#cfd8dc50,#cfd8dca0,#cfd8dc50)] bg-[length:600%_600%] animate-[skeleton_3s_ease_infinite]'
+  // Style
+  const isFetchingOrPlaceholderStyle = isFetching
+    ? 'border-2 border-transparent animate-[skeleton_2s_ease_infinite]'
     : isPlaceholder
-    ? 'border-2 bg-slate-50'
-    : ''
-  const rewardStyle = maximumDiscount !== reward ? 'text-slate-400 line-through' : ''
-  const cardDiscountStyle =
-    maximumDiscount !== maximumCardDiscount ? 'text-slate-400 line-through' : ''
-  const minimumPriceStyle = `${
-    isOutOfStock ? 'text-slate-400 line-through text-2xl' : 'text-fox-700 text-4xl'
-  }`
+    ? 'border-2 border-slate-200'
+    : 'border-2 border-transparent'
+  const isFetchingStyle = isFetching ? 'animate-[skeleton_2s_ease_infinite]' : ''
+  const isRewardStyle = maximumDiscount === reward ? '' : 'text-slate-400 line-through'
+  const isCardStyle = maximumDiscount === maximumCardDiscount ? '' : 'text-slate-400 line-through'
+  const isOutOfStockStyle = isOutOfStock
+    ? 'text-slate-400 line-through text-2xl'
+    : 'text-fox-700 text-4xl'
 
   return (
-    <div className={isFetchingStyle}>
-      {isPlaceholder && <h3 className="border-b-2 text-center p-2">예시 화면</h3>}
+    <div className={isFetchingOrPlaceholderStyle}>
+      {isPlaceholder && (
+        <h3 className={`border-b-2 border-slate-200 text-center p-2 ${isFetchingStyle}`}>
+          예시 화면
+        </h3>
+      )}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 m-2">
         <Image src={product.imageUrl} alt="cover" width="384" height="384" className="mx-auto" />
         <div>
@@ -61,7 +66,7 @@ function SearchResult({ product, isFetching }: Props) {
                 {formatKoreaPrice(originalOrCouponOrSalePrice)}원
               </h5>
             )}
-            <h1 className={minimumPriceStyle}>
+            <h1 className={isOutOfStockStyle}>
               {formatKoreaPrice(minimumPrice)}원 {isOutOfStock && '(품절)'}
             </h1>
             <div className="border w-full my-4" />
@@ -89,23 +94,21 @@ function SearchResult({ product, isFetching }: Props) {
                     <td className="text-right">{formatKoreaPrice(couponOrSalePrice)}원</td>
                   </tr>
                 )}
-                {maximumDiscount && (
-                  <>
-                    <tr className={rewardStyle}>
-                      <td className="flex gap-2 items-center">
-                        <CoinIcon width="1rem" /> 적립금
-                      </td>
-                      <td className="text-right">-{formatKoreaPrice(reward ?? 0)}원</td>
-                    </tr>
-                    <tr className={cardDiscountStyle}>
-                      <td className="flex gap-2 items-center">
-                        <CreditCardIcon width="1rem" /> 카드할인
-                      </td>
-                      <td className="text-right">
-                        -{formatKoreaPrice(maximumCardDiscount ?? 0)}원
-                      </td>
-                    </tr>
-                  </>
+                {reward && (
+                  <tr className={isRewardStyle}>
+                    <td className="flex gap-2 items-center">
+                      <CoinIcon width="1rem" /> 적립금
+                    </td>
+                    <td className="text-right">-{formatKoreaPrice(reward)}원</td>
+                  </tr>
+                )}
+                {maximumCardDiscount && (
+                  <tr className={isCardStyle}>
+                    <td className="flex gap-2 items-center">
+                      <CreditCardIcon width="1rem" /> 카드할인
+                    </td>
+                    <td className="text-right">-{formatKoreaPrice(maximumCardDiscount)}원</td>
+                  </tr>
                 )}
                 <tr className="text-fox-700">
                   <td className="flex gap-2 items-center">최종가</td>
