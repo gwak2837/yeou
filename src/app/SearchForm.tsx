@@ -83,7 +83,9 @@ export default function SearchForm() {
         </button>
       </form>
 
-      {error && <pre className="border-2 border-slate-300 overflow-x-auto">{error.toString()}</pre>}
+      <pre className="border-2 mx-2 my-8 p-2 border-slate-200 overflow-x-auto md:mx-0">
+        {error?.toString() ?? '정상'}
+      </pre>
 
       <NotificationForm product={(product ?? productPlaceholder) as ProductPlaceholder} />
       <SearchResult

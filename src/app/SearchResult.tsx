@@ -33,11 +33,7 @@ function SearchResult({ product, isFetching }: Props) {
   const originalOrCouponOrSalePrice = originalPrice ?? couponOrSalePrice
 
   // Style
-  const isFetchingOrPlaceholderStyle = isFetching
-    ? 'border-2 border-transparent animate-[skeleton_2s_ease_infinite]'
-    : isPlaceholder
-    ? 'border-2 border-slate-200'
-    : 'border-2 border-transparent'
+  const isPlaceholderStyle = isPlaceholder ? 'border-slate-200' : 'border-transparent'
   const isFetchingStyle = isFetching ? 'animate-[skeleton_2s_ease_infinite]' : ''
   const isRewardStyle = maximumDiscount === reward ? '' : 'text-slate-400 line-through'
   const isCardStyle = maximumDiscount === maximumCardDiscount ? '' : 'text-slate-400 line-through'
@@ -46,7 +42,7 @@ function SearchResult({ product, isFetching }: Props) {
     : 'text-fox-700 text-4xl'
 
   return (
-    <div className={isFetchingOrPlaceholderStyle}>
+    <div className={`border-2 mx-2 my-8 ${isPlaceholderStyle} ${isFetchingStyle} md:m-0`}>
       {isPlaceholder && (
         <h3 className={`border-b-2 border-slate-200 text-center p-2 ${isFetchingStyle}`}>
           예시 화면
@@ -122,10 +118,10 @@ function SearchResult({ product, isFetching }: Props) {
           </div>
         </div>
       </div>
-      <div className="border w-full my-4" />
       <div className="m-2">
         {cards && (
           <>
+            <div className="border w-full my-4" />
             <h3 className="text-xl flex gap-2 items-center my-6">
               <CreditCardIcon width="1.5rem" /> 카드할인 상세
             </h3>

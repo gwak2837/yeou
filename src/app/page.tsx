@@ -1,10 +1,16 @@
+import Image from 'next/image'
+
 import Username from '../components/Username'
 import SearchForm from './SearchForm'
 
 export default function HomePage() {
   return (
     <>
-      <main className="py-16 max-w-screen-md mx-auto">
+      <main className="max-w-screen-md mx-auto">
+        <div className="flex gap-4 justify-center items-center m-8">
+          <Image src="/images/fox.webp" alt="fox" width="64" height="64" />
+          <h1 className="text-4xl text-fox-700">새소식</h1>
+        </div>
         <SearchForm />
       </main>
       <Username />

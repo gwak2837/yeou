@@ -147,7 +147,7 @@ function NotificationForm({ product }: Props) {
 
   return (
     <form
-      className={`my-4 border-2 ${isPlaceholderStyle}`}
+      className={`mx-2 my-8 border-2 ${isPlaceholderStyle} md:mx-0`}
       onSubmit={handleSubmit(toggleSubscription)}
     >
       {isPlaceholder && <h3 className="border-b-2 border-slate-200 text-center p-2">예시 화면</h3>}
