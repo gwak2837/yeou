@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ChangeEvent, memo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -7,6 +7,7 @@ import { NumericFormat } from 'react-number-format'
 import { ProductPlaceholder } from '../common/model'
 import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
+import useCurrentUser from '../hooks/useCurrentUser'
 import XIcon from '../svgs/x.svg'
 
 type Props = {
@@ -31,6 +32,7 @@ export default memo(NotificationForm)
 function NotificationForm({ product }: Props) {
   const condition = product.notificationCondition
   const { isPlaceholder } = product
+  const user = useCurrentUser()
 
   // Notification subscription inputs
   const {
@@ -60,6 +62,8 @@ function NotificationForm({ product }: Props) {
   const isConditionEmpty = prices.length === 0 && !hasCardDiscount && !hasCouponDiscount && !canBuy
 
   // Toggle notification condition
+  const queryClient = useQueryClient()
+
   const {
     isLoading: isSubscriptionLoading,
     isError: isSubscriptionError,
@@ -72,16 +76,24 @@ function NotificationForm({ product }: Props) {
         body: condition ? JSON.stringify(condition) : null,
       }),
     onError: toastError,
-    onSuccess: (data) => {
-      console.log('👀 - data', data)
+    onSuccess: (data, { condition }) => {
+      // queryClient.setQueryData(['product', product.URL], (oldData) =>
+      //   oldData
+      //     ? {
+      //         ...oldData,
+      //         title: 'my new post title',
+      //       }
+      //     : oldData
+      // )
     },
   })
 
   function toggleSubscription(condition: Condition) {
-    mutate({
-      productId: product.id,
-      condition: isConditionEmpty ? null : condition,
-    })
+    if (user)
+      mutate({
+        productId: product.id,
+        condition: isConditionEmpty ? null : condition,
+      })
   }
 
   // Price limit condition
@@ -151,7 +163,7 @@ function NotificationForm({ product }: Props) {
       onSubmit={handleSubmit(toggleSubscription)}
     >
       {isPlaceholder && <h3 className="border-b-2 border-slate-200 text-center p-2">예시 화면</h3>}
-      <div className="flex gap-2 items-center w-full  my-4 px-2 whitespace-nowrap flex-wrap">
+      <div className="flex gap-2 items-center my-4 whitespace-nowrap flex-wrap">
         <select
           className="p-2 border w-28 focus:outline-fox-600 cursor-pointer"
           onChange={createCondition}
@@ -283,7 +295,7 @@ function NotificationForm({ product }: Props) {
       )}
 
       <button
-        className="bg-fox-700 my-4 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
+        className="bg-fox-700 rounded my-4 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
         disabled={isPlaceholder || !isDirty || isSubscriptionLoading}
         type="submit"
       >

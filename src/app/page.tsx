@@ -13,7 +13,6 @@ export default function HomePage() {
         </div>
         <SearchForm />
       </main>
-      <Username />
       {/* 사이트 설명 넣기 */}
       <footer className="grid gap-4 p-4 bg-slate-100">
         <h5 className="text-sm">

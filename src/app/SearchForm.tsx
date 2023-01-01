@@ -65,14 +65,14 @@ export default function SearchForm() {
       <form onSubmit={handleSubmit(searchProduct)}>
         <div className="p-2">
           <input
-            className="w-full	p-2	border-2 border-slate-300 focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
+            className="w-full	p-2	border-2 border-slate-300 rounded focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
             disabled={isFetching}
             placeholder="URL 주소를 입력해주세요"
             {...register('productURL', { required: true })}
           />
         </div>
         <button
-          className="bg-fox-700 w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 disabled:cursor-not-allowed"
+          className="bg-fox-700  w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 disabled:cursor-not-allowed md:rounded"
           disabled={!isDirty}
           type="submit"
         >
