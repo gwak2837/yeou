@@ -2,7 +2,7 @@ import { APPLICATION_SHORT_NAME, CANONICAL_URL } from '../common/constants'
 
 export default function HomeHead() {
   const title = '새소식'
-  const description = '가격 변동 알리미'
+  const description = '상품의 가격이 변했을 때 알림을 받아보세요'
 
   return (
     <>

@@ -2,7 +2,7 @@ import { CANONICAL_URL } from '../../common/constants'
 
 export default function Head() {
   const title = '나의 새소식'
-  const description = '가격 변동 알리미2'
+  const description = '상품의 가격이 변했을 때 알림을 받아보세요'
 
   return (
     <>

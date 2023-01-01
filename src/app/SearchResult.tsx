@@ -179,7 +179,7 @@ function SearchResult({ product, isFetching }: Props) {
       </div>
       <button
         className="bg-fox-700 text-white font-semibold text-xl text-center p-2 w-full sticky bottom-0	md:rounded hover:bg-fox-800 active:bg-fox-800"
-        onClick={() => window.open(product.affiliateLink ?? product.URL, '_blank')}
+        onClick={() => window.open(affiliateLink ?? URL, '_blank')}
       >
         쿠팡에서 구매하기
       </button>
