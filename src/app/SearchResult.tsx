@@ -177,12 +177,17 @@ function SearchResult({ product, isFetching }: Props) {
           }
         `}</style>
       </div>
-      <button
-        className="bg-fox-700 text-white font-semibold text-xl text-center p-2 w-full sticky bottom-0	md:rounded hover:bg-fox-800 active:bg-fox-800"
-        onClick={() => window.open(affiliateLink ?? URL, '_blank')}
-      >
-        쿠팡에서 구매하기
-      </button>
+      <div className="sticky bottom-0 grid grid-cols-2 gap-2 p-2">
+        <button className="bg-fox-700/90 text-white rounded font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm">
+          공유하기
+        </button>
+        <button
+          className="bg-fox-700/90 text-white rounded break-keep font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm"
+          onClick={() => window.open(affiliateLink ?? URL, '_blank')}
+        >
+          구매하기
+        </button>
+      </div>
     </div>
   )
 }
