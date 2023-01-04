@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ChangeEvent, memo, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
 
-import { ProductPlaceholder } from '../common/model'
+import { Product, ProductPlaceholder } from '../common/model'
 import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -36,13 +36,14 @@ function NotificationForm({ product }: Props) {
 
   // Notification subscription inputs
   const {
+    control,
     formState: { isDirty },
     handleSubmit,
     setValue,
     watch,
   } = useForm<Condition>({
     defaultValues: {
-      prices: condition?.prices ?? [],
+      prices: [],
       hasCardDiscount: condition?.hasCardDiscount ?? false,
       hasCouponDiscount: condition?.hasCouponDiscount ?? false,
       canBuy: condition?.canBuy ?? false,
@@ -54,47 +55,20 @@ function NotificationForm({ product }: Props) {
     value: Parameters<typeof setValue>[1]
   ) => setValue(name, value, { shouldDirty: true })
 
-  const prices = watch('prices')
   const hasCardDiscount = watch('hasCardDiscount')
   const hasCouponDiscount = watch('hasCouponDiscount')
   const canBuy = watch('canBuy')
 
-  const isConditionEmpty = prices.length === 0 && !hasCardDiscount && !hasCouponDiscount && !canBuy
-
-  // Toggle notification condition
-  const queryClient = useQueryClient()
-
   const {
-    isLoading: isSubscriptionLoading,
-    isError: isSubscriptionError,
-    mutate,
-  } = useMutation<any, any, any>({
-    mutationFn: ({ productId, condition }) =>
-      fetchWithJWT(`/product/${productId}/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: condition ? JSON.stringify(condition) : null,
-      }),
-    onError: toastError,
-    onSuccess: (data, { condition }) => {
-      // queryClient.setQueryData(['product', product.URL], (oldData) =>
-      //   oldData
-      //     ? {
-      //         ...oldData,
-      //         title: 'my new post title',
-      //       }
-      //     : oldData
-      // )
-    },
+    fields: prices,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: 'prices',
   })
 
-  function toggleSubscription(condition: Condition) {
-    if (user)
-      mutate({
-        productId: product.id,
-        condition: isConditionEmpty ? null : condition,
-      })
-  }
+  const isConditionEmpty = prices.length === 0 && !hasCardDiscount && !hasCouponDiscount && !canBuy
 
   // Price limit condition
   const limitInput = useRef<HTMLInputElement>(null)
@@ -122,13 +96,7 @@ function NotificationForm({ product }: Props) {
       return toast.error('이미 같은 조건의 알림이 존재합니다')
     }
 
-    setValueDirty('prices', [...prices, { limit: +limit, unit: +unit, fluctuation }])
-  }
-
-  function deletePriceNotification(price: Price) {
-    const selectedPrice = (p: Price) =>
-      p.limit !== price.limit || p.unit !== price.unit || p.fluctuation !== price.fluctuation
-    return () => setValueDirty('prices', prices.filter(selectedPrice))
+    append({ limit: +limit, unit: +unit, fluctuation })
   }
 
   // Other condition
@@ -152,6 +120,40 @@ function NotificationForm({ product }: Props) {
       default:
         break
     }
+  }
+
+  // Toggle notification condition
+  const queryClient = useQueryClient()
+
+  const {
+    isLoading: isSubscriptionLoading,
+    isError: isSubscriptionError,
+    mutate,
+  } = useMutation<any, any, any>({
+    mutationFn: ({ productId, condition }) =>
+      fetchWithJWT(`/product/${productId}/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: condition ? JSON.stringify(condition) : null,
+      }),
+    onError: toastError,
+    onSuccess: (_, { condition }) =>
+      queryClient.setQueryData<Product>(
+        ['product', product.URL],
+        (oldData) =>
+          oldData && {
+            ...oldData,
+            condition: condition,
+          }
+      ),
+  })
+
+  function toggleSubscription(condition: Condition) {
+    if (user)
+      mutate({
+        productId: product.id,
+        condition: isConditionEmpty ? null : condition,
+      })
   }
 
   // Style
@@ -251,11 +253,11 @@ function NotificationForm({ product }: Props) {
 
       {!isConditionEmpty && (
         <ul className="my-4 grid gap-2">
-          {prices.map((price) => (
+          {prices.map((price, i) => (
             <li
-              key={`${price.limit}-${price.unit}-${price.fluctuation}`}
+              key={price.id}
               className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-100"
-              onClick={deletePriceNotification(price)}
+              onClick={() => remove(i)}
             >
               <XIcon width="1rem" />
               <div>

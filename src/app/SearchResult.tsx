@@ -35,8 +35,14 @@ function SearchResult({ product, isFetching }: Props) {
   const originalOrCouponOrSalePrice = originalPrice ?? couponOrSalePrice
 
   // Style
-  const isPlaceholderStyle = isPlaceholder ? 'border-slate-200' : 'border-transparent'
-  const isFetchingStyle = isFetching ? 'animate-[skeleton_2s_ease_infinite]' : ''
+  const isPlaceholderFetchingStyle = isFetching
+    ? isPlaceholder
+      ? 'animate-[skeletonPlaceholder_2s_ease_infinite]'
+      : 'animate-[skeleton_2s_ease_infinite]'
+    : isPlaceholder
+    ? 'border-slate-200'
+    : 'border-transparent'
+  const isFetchingStyle = isFetching ? 'animate-[skeletonPlaceholder_2s_ease_infinite]' : ''
   const isRewardStyle = maximumDiscount === reward ? '' : 'text-slate-400 line-through'
   const isCardStyle = maximumDiscount === maximumCardDiscount ? '' : 'text-slate-400 line-through'
   const isOutOfStockStyle = isOutOfStock
@@ -45,7 +51,7 @@ function SearchResult({ product, isFetching }: Props) {
 
   return (
     <div className="my-8">
-      <div className={`border-2 m-2 ${isPlaceholderStyle} ${isFetchingStyle} md:mx-0`}>
+      <div className={`border-2 m-2 ${isPlaceholderFetchingStyle} md:mx-0`}>
         {isPlaceholder && (
           <h3 className={`border-b-2 border-slate-200 text-center p-2 ${isFetchingStyle}`}>
             예시 화면

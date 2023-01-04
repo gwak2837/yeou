@@ -55,6 +55,14 @@ module.exports = {
             'border-color': '#f98a20',
           },
         },
+        skeletonPlaceholder: {
+          '0%, 100%': {
+            'border-color': 'rgb(226 232 240)',
+          },
+          '50%': {
+            'border-color': '#f98a20',
+          },
+        },
       },
     },
   },
