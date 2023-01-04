@@ -1,8 +1,9 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 import { Product, ProductPlaceholder, productPlaceholder } from '../common/model'
 import { fetchWithJWT, toastError } from '../common/utils'
@@ -17,11 +18,12 @@ type Form = {
 export default function SearchForm() {
   // Form
   const {
-    formState: { isDirty },
+    formState: { errors, isDirty },
     handleSubmit,
     register,
   } = useForm<Form>({
     defaultValues: { productURL: '' },
+    delayError: 500,
   })
 
   // Query
@@ -63,14 +65,24 @@ export default function SearchForm() {
   return (
     <>
       <form onSubmit={handleSubmit(searchProduct)}>
-        <div className="p-2">
+        <div className="m-2">
           <input
             className="w-full	p-2	border-2 border-slate-300 rounded focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
             disabled={isFetching}
             placeholder="URL 주소를 입력해주세요"
-            {...register('productURL', { required: true })}
+            {...register('productURL', {
+              required: 'URL 주소를 입력해주세요',
+              pattern: {
+                value:
+                  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/,
+                message: '올바른 URL 형식으로 입력해주세요',
+              },
+            })}
           />
         </div>
+        {errors.productURL && (
+          <div className="text-sm text-red-600 mt-2">{errors.productURL.message}</div>
+        )}
         <button
           className="bg-fox-700  w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 disabled:cursor-not-allowed md:rounded"
           disabled={!isDirty}
