@@ -1,9 +1,10 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 import { Product, ProductPlaceholder, productPlaceholder } from '../common/model'
 import { fetchWithJWT, toastError } from '../common/utils'
@@ -12,32 +13,32 @@ import NotificationForm from './NotificationForm'
 import SearchResult from './SearchResult'
 
 type Form = {
-  productURL: string
+  url: string
 }
 
 export default function SearchForm() {
   // Form
+  const validURL = getValidURL(useSearchParams().get('url'))
   const {
     formState: { errors, isDirty },
     handleSubmit,
     register,
   } = useForm<Form>({
-    defaultValues: { productURL: '' },
+    defaultValues: { url: validURL },
     delayError: 500,
   })
 
   // Query
-  const [enabled, setEnabled] = useState(false)
-  const [productURLAsKey, setProductURLAsKey] = useState('')
+  const [enabled, setEnabled] = useState(Boolean(validURL))
+  const [encodedURL, setEncodedURL] = useState(encodeURIComponent(validURL))
 
   const {
     data: product,
     error,
     isFetching,
   } = useQuery<Product>({
-    queryKey: ['product', productURLAsKey],
-    queryFn: async ({ signal }) =>
-      fetchWithJWT(`/product?url=${encodeURIComponent(productURLAsKey)}`, { signal }),
+    queryKey: ['product', encodedURL],
+    queryFn: async ({ signal }) => fetchWithJWT(`/product?url=${encodedURL}`, { signal }),
     enabled,
     placeholderData: productPlaceholder,
     keepPreviousData: true,
@@ -51,14 +52,15 @@ export default function SearchForm() {
 
   const queryClient = useQueryClient()
 
-  function searchProduct({ productURL }: Form) {
+  function searchProduct({ url }: Form) {
+    const encodedURL = encodeURIComponent(getValidURL(url))
+
     if (isFetching) {
-      queryClient.cancelQueries({ queryKey: ['product', productURL] })
+      queryClient.cancelQueries({ queryKey: ['product', encodedURL] })
       setEnabled(false)
-      setProductURLAsKey('')
     } else {
       setEnabled(true)
-      setProductURLAsKey(productURL)
+      setEncodedURL(encodedURL)
     }
   }
 
@@ -70,7 +72,7 @@ export default function SearchForm() {
             className="w-full	p-2	border-2 border-slate-300 rounded focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
             disabled={isFetching}
             placeholder="URL 주소를 입력해주세요"
-            {...register('productURL', {
+            {...register('url', {
               required: 'URL 주소를 입력해주세요',
               pattern: {
                 value:
@@ -80,12 +82,10 @@ export default function SearchForm() {
             })}
           />
         </div>
-        {errors.productURL && (
-          <div className="text-sm text-red-600 mt-2">{errors.productURL.message}</div>
-        )}
+        {errors.url && <div className="text-sm text-red-600 m-2">{errors.url.message}</div>}
         <button
           className="bg-fox-700  w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 disabled:cursor-not-allowed md:rounded"
-          disabled={!isDirty}
+          disabled={!isFetching && !isDirty}
           type="submit"
         >
           <div className="flex gap-2 justify-center items-center">
@@ -106,4 +106,39 @@ export default function SearchForm() {
       />
     </>
   )
+}
+
+function getValidURL(input: string | null) {
+  if (!input) return ''
+
+  try {
+    const validURL = new URL(input)
+    const hostname = validURL.hostname
+
+    if (hostname === 'www.coupang.com') {
+      const searchParams = new URLSearchParams(validURL.search)
+      const newSearchParams: any = {}
+      const venderItemId = searchParams.get('vendorItemId')
+      const itemId = searchParams.get('itemId')
+      if (venderItemId) newSearchParams.vendorItemId = venderItemId
+      if (itemId) newSearchParams.itemId = itemId
+      validURL.search = new URLSearchParams(newSearchParams).toString()
+    } else if (hostname === 'link.coupang.com') {
+      validURL.search = ''
+    } else if (hostname === 'ohou.se') {
+      toast.error('지원 예정입니다')
+      return ''
+    } else if (hostname === 'prod.danawa.com') {
+      toast.error('지원 예정입니다')
+      return ''
+    } else {
+      toast.error('지원하지 않는 URL 주소입니다')
+      return ''
+    }
+
+    validURL.searchParams.sort()
+    return validURL.toString()
+  } catch (error) {
+    return ''
+  }
 }

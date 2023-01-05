@@ -1,6 +1,9 @@
 interface Window {
   gtag: any
-  Kakao: Record<string, any>
+  Kakao: {
+    init: any
+    Share: any
+  }
   ChannelIO: any
   FlareLane: any
 }

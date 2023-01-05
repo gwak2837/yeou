@@ -1,6 +1,6 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
-import Username from '../components/Username'
 import SearchForm from './SearchForm'
 
 export default function HomePage() {
@@ -8,12 +8,13 @@ export default function HomePage() {
     <>
       <main className="max-w-screen-md mx-auto">
         <div className="flex gap-4 justify-center items-center m-8">
-          <Image src="/images/fox.webp" alt="fox" width="64" height="64" />
+          <Link href="/">
+            <Image src="/images/fox.webp" alt="fox" width="64" height="64" />
+          </Link>
           <h1 className="text-4xl text-fox-700">새소식</h1>
         </div>
         <SearchForm />
       </main>
-      {/* 사이트 설명 넣기 */}
       <footer className="grid gap-4 p-4 bg-slate-100">
         <h5 className="text-sm">
           본 사이트는 쿠팡 파트너스 · 오늘의집 큐레이터 · 11번가 머니백 활동의 일환으로, 제휴 링크를

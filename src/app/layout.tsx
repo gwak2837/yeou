@@ -15,6 +15,7 @@ import Authentication from '../components/Authentication'
 import ChannelTalk from '../components/ChannelTalk'
 import FlareLane from '../components/FlareLane'
 import GoogleAnalytics from '../components/GoogleAnalytics'
+import KakaoScript from '../components/KakaoScript'
 import ReactHotToast from '../components/ReactHotToast'
 import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
       <ChannelTalk />
       <GoogleAnalytics />
+      <KakaoScript />
     </html>
   )
 }

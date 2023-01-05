@@ -1,3 +1,5 @@
+'use client'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ChangeEvent, memo, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -140,11 +142,7 @@ function NotificationForm({ product }: Props) {
     onSuccess: (_, { condition }) =>
       queryClient.setQueryData<Product>(
         ['product', product.URL],
-        (oldData) =>
-          oldData && {
-            ...oldData,
-            condition: condition,
-          }
+        (oldData) => oldData && { ...oldData, condition }
       ),
   })
 

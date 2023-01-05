@@ -1,7 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import { memo } from 'react'
 
-import { ProductPlaceholder } from '../common/model'
+import { ProductPlaceholder, productPlaceholder } from '../common/model'
 import { formatKoreaPrice } from '../common/utils'
 import CoinIcon from '../svgs/coin.svg'
 import CreditCardIcon from '../svgs/credit-card.svg'
@@ -28,11 +30,55 @@ function SearchResult({ product, isFetching }: Props) {
     reward,
     maximumDiscount,
     minimumPrice,
+    imageURL,
     isOutOfStock,
     isPlaceholder,
   } = product
   const couponOrSalePrice = couponPrice ?? salePrice
   const originalOrCouponOrSalePrice = originalPrice ?? couponOrSalePrice
+
+  function shareWithKakaotalk() {
+    const sharingProduct = isPlaceholder ? productPlaceholder : product
+    const originalPrice = sharingProduct.originalPrice
+    const minimumPrice = sharingProduct.minimumPrice
+
+    const items = []
+
+    if (originalPrice) {
+      items.push({
+        item: '정가',
+        itemOp: `${formatKoreaPrice(originalPrice)}원`,
+      })
+      items.push({
+        item: '최대할인',
+        itemOp: `${formatKoreaPrice(minimumPrice - originalPrice)}원`,
+      })
+    }
+
+    const url = `${window.location.href.split('?')[0]}?url=${encodeURIComponent(URL)}`
+    const link = { mobileWebUrl: url, webUrl: url }
+
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: sharingProduct.name,
+        description: sharingProduct.options?.map((option) => option.value).join(', '),
+        imageUrl: imageURL,
+        link,
+      },
+      itemContent: {
+        items,
+        sum: '최종가',
+        sumOp: `${formatKoreaPrice(minimumPrice)}원`,
+      },
+      // social: {
+      //   likeCount: 10,
+      //   commentCount: 20,
+      //   sharedCount: 30,
+      // },
+      buttons: [{ title: '자세히 보기', link }],
+    })
+  }
 
   // Style
   const isPlaceholderFetchingStyle = isFetching
@@ -184,11 +230,16 @@ function SearchResult({ product, isFetching }: Props) {
         `}</style>
       </div>
       <div className="sticky bottom-0 grid grid-cols-2 gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
-        <button className="bg-fox-700/90 text-white rounded font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm">
+        <button
+          className="bg-fox-700/90 text-white rounded font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300 disabled:cursor-not-allowed"
+          disabled={isFetching}
+          onClick={shareWithKakaotalk}
+        >
           공유하기
         </button>
         <button
-          className="bg-fox-700/90 text-white rounded break-keep font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm"
+          className="bg-fox-700/90 text-white rounded break-keep font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300 disabled:cursor-not-allowed"
+          disabled={isFetching}
           onClick={() => window.open(affiliateLink ?? URL, '_blank')}
         >
           구매하기
