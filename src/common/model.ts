@@ -1,50 +1,46 @@
 export type Product = {
   id: string
   name: string
-  options:
-    | {
-        title: string
-        value: string
-      }[]
-    | null
+  options?: {
+    title: string
+    value: string
+  }[]
   updateTime: number
   URL: string
-  affiliateLink: string
-  originalPrice: number | null
-  salePrice: number | null
-  couponPrice: number | null
-  cards:
-    | {
-        company: string
-        absolute: number
-        relative: number
-        onlyWOW: boolean
-      }[]
-    | null
-  maximumCardDiscount: number | null
-  coupons:
-    | {
-        discount: string
-        condition: string
-      }[]
-    | null
-  reward: number | null
-  maximumDiscount: number | null
+  affiliateLink?: string
+  originalPrice?: number
+  salePrice?: number
+  couponPrice?: number
+  cards?: {
+    company: string
+    absolute: number
+    relative: number
+    onlyWOW: boolean
+  }[]
+  maximumCardDiscount?: number
+  coupons?: {
+    discount: string
+    condition: string
+  }[]
+  reward?: number
+  maximumDiscount?: number
   minimumPrice: number
   imageURL: string
   reviewURL: string
   reviewCount: string
   isOutOfStock: boolean
-  notificationCondition: {
-    prices: {
-      limit: number
-      fluctuation: 'more' | 'less'
-      unit: number
-    }[]
+  notificationCondition?: {
+    prices?:
+      | {
+          limit: number
+          fluctuation: 'more' | 'less'
+          unit: number
+        }[]
     hasCardDiscount: boolean
     hasCouponDiscount: boolean
     canBuy: boolean
-  } | null
+  }
+  isPlaceholder: boolean
 }
 
 export type ProductPlaceholder = Product & { isPlaceholder: boolean }
@@ -60,7 +56,7 @@ export const productPlaceholder: ProductPlaceholder = {
   URL: '',
   affiliateLink: 'https://link.coupang.com/a/Ksgbf',
   originalPrice: 679000,
-  salePrice: null,
+  salePrice: undefined,
   couponPrice: 622900,
   cards: [
     {
@@ -93,7 +89,7 @@ export const productPlaceholder: ProductPlaceholder = {
     },
   ],
   maximumCardDiscount: 62290,
-  coupons: null,
+  coupons: undefined,
   reward: 31145,
   maximumDiscount: 62290,
   minimumPrice: 560610,
@@ -103,6 +99,10 @@ export const productPlaceholder: ProductPlaceholder = {
     'https://www.coupang.com/vp/products/6912124565?itemId=16661691663&itemsCount=36&rank=3&vendorItemId=83845338385#sdpReview',
   reviewCount: '111개 상품평',
   isOutOfStock: false,
-  notificationCondition: null,
+  notificationCondition: {
+    hasCardDiscount: true,
+    hasCouponDiscount: false,
+    canBuy: true,
+  },
   isPlaceholder: true,
 }

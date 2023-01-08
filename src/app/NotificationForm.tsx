@@ -155,7 +155,7 @@ function NotificationForm({ product }: Props) {
   }
 
   // Style
-  const isPlaceholderStyle = isPlaceholder ? 'border-slate-200' : 'border-transparent'
+  const isPlaceholderStyle = isPlaceholder ? 'border-slate-200 bg-slate-50' : 'border-transparent'
 
   return (
     <form
@@ -294,16 +294,18 @@ function NotificationForm({ product }: Props) {
         </ul>
       )}
 
-      <button
-        className="bg-fox-700 rounded my-4 p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
-        disabled={isPlaceholder || !isDirty || isSubscriptionLoading}
-        type="submit"
-      >
-        <div className="flex gap-2 justify-center items-center">
-          {isSubscriptionLoading && <LoadingSpinner />}
-          <div>{isConditionEmpty ? '알림끊기' : '알림받기'}</div>
-        </div>
-      </button>
+      <div className="p-2">
+        <button
+          className="bg-fox-700 rounded p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
+          disabled={isPlaceholder || !isDirty || isSubscriptionLoading}
+          type="submit"
+        >
+          <div className="flex gap-2 justify-center items-center">
+            {isSubscriptionLoading && <LoadingSpinner />}
+            <div>{isConditionEmpty ? '알림끊기' : '알림받기'}</div>
+          </div>
+        </button>
+      </div>
     </form>
   )
 }

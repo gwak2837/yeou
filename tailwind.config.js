@@ -63,6 +63,14 @@ module.exports = {
             'border-color': '#f98a20',
           },
         },
+        skeletonBg: {
+          '0%, 100%': {
+            background: 'rgb(100,116,139,0.1)',
+          },
+          '50%': {
+            background: 'rgb(100,116,139,0.3)',
+          },
+        },
       },
     },
   },
