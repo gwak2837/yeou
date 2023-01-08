@@ -65,10 +65,10 @@ module.exports = {
         },
         skeletonBg: {
           '0%, 100%': {
-            background: 'rgb(100,116,139,0.1)',
+            background: 'rgb(100,116,139,0.05)',
           },
           '50%': {
-            background: 'rgb(100,116,139,0.3)',
+            background: 'rgb(100,116,139,0.2)',
           },
         },
       },

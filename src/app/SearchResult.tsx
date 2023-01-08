@@ -42,9 +42,13 @@ function SearchResult({ product, isFetching }: Props) {
       ? 'animate-[skeletonPlaceholder_2s_ease_infinite]'
       : 'animate-[skeleton_2s_ease_infinite]'
     : isPlaceholder
-    ? 'border-slate-200 bg-slate-50'
+    ? 'border-slate-200'
     : 'border-transparent'
-  const isFetchingStyle = isFetching ? 'animate-[skeletonBg_2s_ease_infinite]' : ''
+  const isFetchingStyle = isFetching
+    ? 'animate-[skeletonBg_2s_ease_infinite]'
+    : isPlaceholder
+    ? 'bg-slate-500/5'
+    : ''
   const isRewardStyle = maximumDiscount === reward ? '' : 'text-slate-400 line-through'
   const isCardStyle = maximumDiscount === maximumCardDiscount ? '' : 'text-slate-400 line-through'
   const isOutOfStockStyle = isOutOfStock
@@ -53,16 +57,14 @@ function SearchResult({ product, isFetching }: Props) {
 
   return (
     <div className={`border-2 mx-2 my-8 ${isPlaceholderFetchingStyle} relative  md:mx-0`}>
+      <div className={`absolute inset-0 ${isFetchingStyle}`} />
       {isPlaceholder && (
         <h3 className={`border-b-2 border-slate-200  text-center p-2`}>예시 화면</h3>
       )}
       {isFetching && (
-        <>
-          <div className={`absolute inset-0 ${isFetchingStyle}`} />
-          <div className="absolute top-1/2 left-1/2">
-            <LoadingSpinner />
-          </div>
-        </>
+        <div className="absolute top-1/2 left-1/2">
+          <LoadingSpinner />
+        </div>
       )}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 m-2">
         <Image src={imageURL} alt="cover" width="384" height="384" className="mx-auto" />
