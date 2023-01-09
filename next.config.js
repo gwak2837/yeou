@@ -1,16 +1,10 @@
-const runtimeCaching = require('next-pwa/cache')
+// const runtimeCaching = require('next-pwa/cache')
 const withPWA = require('next-pwa')({
-  buildExcludes: [
-    // /\/*server\/middleware-chunks\/[0-9]*[a-z]*[A-Z]*\.js$/,
-    /app-build-manifest\.json$/,
-    // /middleware-runtime\.js$/,
-    // /_middleware\.js$/,
-    // /^.+\\_middleware\.js$/,
-  ],
-  publicExcludes: ['!robots.txt'],
+  buildExcludes: [/app-build-manifest\.json$/],
+  // publicExcludes: ['!robots.txt'],
   customWorkerDir: 'src/worker',
   dest: 'public',
-  runtimeCaching,
+  // runtimeCaching,
 })
 
 /** @type {import('next').NextConfig} */
