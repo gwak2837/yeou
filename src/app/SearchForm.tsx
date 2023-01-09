@@ -91,7 +91,7 @@ export default function SearchForm() {
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
       itemContent: {
-        profileText: `${format(updateTime, 'y.M.d H:m')} 기준`,
+        profileText: `${format(new Date(updateTime), 'y.M.d H:m')} 기준`,
         items,
         sum: '최종가',
         sumOp: `${formatKoreaPrice(minimumPrice)}원`,
@@ -152,7 +152,7 @@ export default function SearchForm() {
           isFetching={isFetching}
         />
         <NotificationForm product={(product ?? productPlaceholder) as ProductPlaceholder} />
-        <div className="sticky bottom-0 grid grid-cols-2 gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <div className="sticky bottom-0 z-30 grid grid-cols-2 gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] ">
           <button
             className="bg-fox-700/90 text-white rounded font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300 disabled:cursor-not-allowed"
             disabled={isFetching}

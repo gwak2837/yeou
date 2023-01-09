@@ -17,7 +17,6 @@ export default function FlareLane() {
     if (NODE_ENV === 'production') FlarelaneSDK.setLogLevel('error')
 
     FlarelaneSDK.getIsSubscribed((isSubscribed) => {
-      console.log('👀 - isSubscribed', isSubscribed)
       if (!isSubscribed) return
 
       FlarelaneSDK.getDeviceId(async (deviceId) => {

@@ -5,7 +5,7 @@ export type Product = {
     title: string
     value: string
   }[]
-  updateTime: number
+  updateTime: string
   URL: string
   affiliateLink?: string
   originalPrice?: number
@@ -47,12 +47,12 @@ export type ProductPlaceholder = Product & { isPlaceholder: boolean }
 
 export const productPlaceholder: ProductPlaceholder = {
   id: '1',
-  name: 'Apple 2022 아이패드 10세대 (예시)',
+  name: 'Apple 2022 아이패드 10세대',
   options: [
     { title: '색상', value: '블루' },
     { title: '저장용량 × 태블릿 연결성', value: '64GB × Wi-Fi' },
   ],
-  updateTime: 1_675_146_600_000,
+  updateTime: new Date(2022, 11, 31, 15, 21).toISOString(),
   URL: '',
   affiliateLink: 'https://link.coupang.com/a/Ksgbf',
   originalPrice: 679000,

@@ -162,7 +162,7 @@ function NotificationForm({ product }: Props) {
       className={`mx-2 my-8 border-2 ${isPlaceholderStyle} md:mx-0`}
       onSubmit={handleSubmit(toggleSubscription)}
     >
-      {isPlaceholder && <h3 className="border-b-2 border-slate-200 text-center p-2">예시 화면</h3>}
+      {isPlaceholder && <h3 className="border-b-2 border-slate-200 text-center p-2">결과 예시</h3>}
       <div className="flex gap-2 items-center my-4 whitespace-nowrap flex-wrap">
         <select
           className="p-2 border w-28 focus:outline-fox-600 cursor-pointer"
