@@ -87,7 +87,7 @@ function SearchResult({ product, isFetching }: Props) {
             </h1>
           </div>
           <h5 className="text-sm text-slate-400 my-2">
-            기준: {format(new Date(updateTime), 'y.M.d H:m')}
+            {format(new Date(updateTime), 'y.M.d H:m')} 기준
           </h5>
           <div className="border w-full my-4" />
           <div className="overflow-x-auto relative z-20">
