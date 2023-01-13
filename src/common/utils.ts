@@ -28,4 +28,4 @@ export function toastError(error: Error) {
   toast.error(error.message)
 }
 
-export const formatKoreaPrice = new Intl.NumberFormat('ko-KR').format
+export const formatKRPrice = new Intl.NumberFormat('ko-KR').format

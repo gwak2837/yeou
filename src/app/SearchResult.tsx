@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { memo } from 'react'
 
 import { ProductPlaceholder } from '../common/model'
-import { formatKoreaPrice } from '../common/utils'
+import { formatKRPrice } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import CoinIcon from '../svgs/coin.svg'
 import CreditCardIcon from '../svgs/credit-card.svg'
@@ -79,11 +79,11 @@ function SearchResult({ product, isFetching }: Props) {
           <div className="my-2">
             {originalOrCouponOrSalePrice && originalOrCouponOrSalePrice !== minimumPrice && (
               <h5 className="text-sm text-slate-400 line-through">
-                {formatKoreaPrice(originalOrCouponOrSalePrice)}원
+                {formatKRPrice(originalOrCouponOrSalePrice)}원
               </h5>
             )}
             <h1 className={isOutOfStockStyle}>
-              {formatKoreaPrice(minimumPrice)}원 {isOutOfStock && '(품절)'}
+              {formatKRPrice(minimumPrice)}원 {isOutOfStock && '(품절)'}
             </h1>
           </div>
           <h5 className="text-sm text-slate-400 my-2">
@@ -104,7 +104,7 @@ function SearchResult({ product, isFetching }: Props) {
                     <td className="flex gap-2 items-center">
                       <PriceIcon width="1rem" /> 정가
                     </td>
-                    <td className="text-right">{formatKoreaPrice(originalPrice)}원</td>
+                    <td className="text-right">{formatKRPrice(originalPrice)}원</td>
                   </tr>
                 )}
                 {couponOrSalePrice && (
@@ -112,7 +112,7 @@ function SearchResult({ product, isFetching }: Props) {
                     <td className="flex gap-2 items-center">
                       <SaleIcon width="1rem" /> 할인가
                     </td>
-                    <td className="text-right">{formatKoreaPrice(couponOrSalePrice)}원</td>
+                    <td className="text-right">{formatKRPrice(couponOrSalePrice)}원</td>
                   </tr>
                 )}
                 {reward && (
@@ -120,7 +120,7 @@ function SearchResult({ product, isFetching }: Props) {
                     <td className="flex gap-2 items-center">
                       <CoinIcon width="1rem" /> 적립금
                     </td>
-                    <td className="text-right">-{formatKoreaPrice(reward)}원</td>
+                    <td className="text-right">-{formatKRPrice(reward)}원</td>
                   </tr>
                 )}
                 {maximumCardDiscount && (
@@ -128,13 +128,13 @@ function SearchResult({ product, isFetching }: Props) {
                     <td className="flex gap-2 items-center">
                       <CreditCardIcon width="1rem" /> 카드할인
                     </td>
-                    <td className="text-right">-{formatKoreaPrice(maximumCardDiscount)}원</td>
+                    <td className="text-right">-{formatKRPrice(maximumCardDiscount)}원</td>
                   </tr>
                 )}
                 <tr className="text-fox-700">
                   <td className="flex gap-2 items-center">최종가</td>
                   <td className="text-right">
-                    {formatKoreaPrice((couponOrSalePrice ?? 0) - (maximumDiscount ?? 0))}원{' '}
+                    {formatKRPrice((couponOrSalePrice ?? 0) - (maximumDiscount ?? 0))}원{' '}
                     {isOutOfStock && '(품절)'}
                   </td>
                 </tr>
@@ -173,7 +173,7 @@ function SearchResult({ product, isFetching }: Props) {
                         />
                       </td>
                       <td>{card.relative}%</td>
-                      <td>{formatKoreaPrice(card.absolute)}원</td>
+                      <td>{formatKRPrice(card.absolute)}원</td>
                       <td>{card.onlyWOW && '와우회원 전용'}</td>
                     </tr>
                   ))}

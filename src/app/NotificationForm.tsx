@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
 
 import { Product, ProductPlaceholder } from '../common/model'
-import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
+import { fetchWithJWT, formatKRPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import useCurrentUser from '../hooks/useCurrentUser'
 import XIcon from '../svgs/x.svg'
@@ -25,7 +25,7 @@ type Condition = {
 
 type Price = {
   limit: number
-  fluctuation: 'more' | 'less'
+  fluctuation: '상승' | '하락'
   unit: number
 }
 
@@ -81,7 +81,7 @@ function NotificationForm({ product }: Props) {
 
     const limit = +limitInput.current.value.replaceAll(',', '')
     const unit = +unitInput.current.value.replaceAll(',', '')
-    const fluctuation = e.target.value as 'more' | 'less'
+    const fluctuation = e.target.value as '상승' | '하락'
     e.target.value = ''
 
     if (!limit) {
@@ -259,8 +259,8 @@ function NotificationForm({ product }: Props) {
             >
               <XIcon width="1rem" />
               <div>
-                제품 가격이 {formatKoreaPrice(price.limit)}원부터 {formatKoreaPrice(price.unit)}원씩{' '}
-                {price.fluctuation === 'more' ? '상승' : '하락'}할 때마다
+                제품 가격이 {formatKRPrice(price.limit)}원부터 {formatKRPrice(price.unit)}원씩{' '}
+                {price.fluctuation}할 때마다
               </div>
             </li>
           ))}

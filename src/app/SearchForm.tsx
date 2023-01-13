@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 
 import { Product, ProductPlaceholder, productPlaceholder } from '../common/model'
-import { fetchWithJWT, formatKoreaPrice, toastError } from '../common/utils'
+import { fetchWithJWT, formatKRPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
 import NotificationForm from './NotificationForm'
 import SearchResult from './SearchResult'
@@ -77,11 +77,11 @@ export default function SearchForm() {
     if (originalPrice) {
       items.push({
         item: '정가',
-        itemOp: `${formatKoreaPrice(originalPrice)}원`,
+        itemOp: `${formatKRPrice(originalPrice)}원`,
       })
       items.push({
         item: '최대할인',
-        itemOp: `${formatKoreaPrice(minimumPrice - originalPrice)}원`,
+        itemOp: `${formatKRPrice(minimumPrice - originalPrice)}원`,
       })
     }
 
@@ -94,7 +94,7 @@ export default function SearchForm() {
         profileText: `${format(new Date(updateTime), 'y.M.d H:m')} 기준`,
         items,
         sum: '최종가',
-        sumOp: `${formatKoreaPrice(minimumPrice)}원`,
+        sumOp: `${formatKRPrice(minimumPrice)}원`,
       },
       content: {
         title: sharingProduct.name,

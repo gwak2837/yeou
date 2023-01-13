@@ -33,7 +33,7 @@ export type Product = {
     prices?:
       | {
           limit: number
-          fluctuation: 'more' | 'less'
+          fluctuation: '상승' | '하락'
           unit: number
         }[]
     hasCardDiscount: boolean
