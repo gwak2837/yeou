@@ -2,16 +2,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import SearchForm from './SearchForm'
+import UserPageLink from './UserPageLink'
 
 export default function HomePage() {
   return (
     <>
       <main className="max-w-screen-md mx-auto">
-        <div className="flex gap-4 justify-center items-center m-8">
-          <Link href="/">
-            <Image src="/images/fox.webp" alt="fox" width="64" height="64" />
+        <div className="flex flex-wrap justify-around items-center gap-x-8 gap-y-4 m-4 sm:my-8 sm:mx-0">
+          <Link href="/" className="hover:no-underline focus:no-underline">
+            <div className="flex gap-4 items-center">
+              <Image src="/images/fox.webp" alt="fox" width="64" height="64" />
+              <h1 className="text-4xl text-fox-700 ">새소식</h1>
+            </div>
           </Link>
-          <h1 className="text-4xl text-fox-700">새소식</h1>
+          <UserPageLink />
         </div>
         <SearchForm />
       </main>

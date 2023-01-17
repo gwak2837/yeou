@@ -68,7 +68,7 @@ function SearchResult({ product, isFetching }: Props) {
           <LoadingSpinner />
         </div>
       )}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 m-2">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-2 m-2">
         <Image src={imageURL} alt="cover" width="384" height="384" className="mx-auto" />
         <div>
           <h3 className="text-xl my-2">{product.name}</h3>

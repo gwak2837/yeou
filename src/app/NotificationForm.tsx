@@ -5,11 +5,12 @@ import { ChangeEvent, memo, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
+import { useRecoilValue } from 'recoil'
 
 import { Product, ProductPlaceholder } from '../common/model'
 import { fetchWithJWT, formatKRPrice, toastError } from '../common/utils'
 import LoadingSpinner from '../components/LoadingSpinner'
-import useCurrentUser from '../hooks/useCurrentUser'
+import { currentUserAtom } from '../components/Recoil'
 import XIcon from '../svgs/x.svg'
 
 type Props = {
@@ -32,20 +33,21 @@ type Price = {
 export default memo(NotificationForm)
 
 function NotificationForm({ product }: Props) {
-  const condition = product.notificationCondition
-  const { isPlaceholder } = product
-  const user = useCurrentUser()
+  const { isPlaceholder, notificationCondition: condition } = product
+
+  const currentUser = useRecoilValue(currentUserAtom)
 
   // Notification subscription inputs
   const {
     control,
     formState: { isDirty },
     handleSubmit,
+    reset,
     setValue,
     watch,
   } = useForm<Condition>({
     defaultValues: {
-      prices: [],
+      prices: condition?.prices ?? [],
       hasCardDiscount: condition?.hasCardDiscount ?? false,
       hasCouponDiscount: condition?.hasCouponDiscount ?? false,
       canBuy: condition?.canBuy ?? false,
@@ -127,11 +129,7 @@ function NotificationForm({ product }: Props) {
   // Toggle notification condition
   const queryClient = useQueryClient()
 
-  const {
-    isLoading: isSubscriptionLoading,
-    isError: isSubscriptionError,
-    mutate,
-  } = useMutation<any, any, any>({
+  const { isLoading: isSubscriptionLoading, mutate } = useMutation<any, any, any>({
     mutationFn: ({ productId, condition }) =>
       fetchWithJWT(`/product/${productId}/subscribe`, {
         method: 'POST',
@@ -139,19 +137,33 @@ function NotificationForm({ product }: Props) {
         body: condition ? JSON.stringify(condition) : null,
       }),
     onError: toastError,
-    onSuccess: (_, { condition }) =>
+    onSuccess: (_, { condition }) => {
       queryClient.setQueryData<Product>(
         ['product', product.URL],
         (oldData) => oldData && { ...oldData, condition }
-      ),
+      )
+      reset({
+        prices: condition?.prices ?? [],
+        hasCardDiscount: condition?.hasCardDiscount ?? false,
+        hasCouponDiscount: condition?.hasCouponDiscount ?? false,
+        canBuy: condition?.canBuy ?? false,
+      })
+    },
   })
 
-  function toggleSubscription(condition: Condition) {
-    if (user)
-      mutate({
-        productId: product.id,
-        condition: isConditionEmpty ? null : condition,
-      })
+  function toggleSubscription({ prices, hasCardDiscount, hasCouponDiscount, canBuy }: Condition) {
+    if (!currentUser) return toast.error('로그인이 필요합니다')
+
+    const condition = isConditionEmpty
+      ? null
+      : {
+          prices: prices.length > 0 ? prices : null,
+          hasCardDiscount,
+          hasCouponDiscount,
+          canBuy,
+        }
+
+    mutate({ productId: product.id, condition })
   }
 
   // Style

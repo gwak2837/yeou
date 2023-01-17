@@ -1,20 +1,22 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import UserPageLink from '../UserPageLink'
+import Notifications from './Notifications'
+
 export default function UserPage() {
   return (
-    <div className="px-8">
-      <main className="min-h-screen py-16 flex-1 flex flex-col justify-center items-center">
-        <h1 className="m-0 text-6xl not-italic font-extrabold tracking-tight text-center dark:bg-clip-text">
-          환영합니다 to{' '}
-          <a
-            className="no-underline text-blue-600 hover:underline focus:underline active:underline "
-            href="https://nextjs.org"
-          >
-            Next.js 13!
-          </a>
-        </h1>
-      </main>
-    </div>
+    <main>
+      <div className="flex flex-wrap justify-around items-center gap-x-8 gap-y-4 m-4 sm:my-8 sm:mx-0">
+        <Link href="/" className="hover:no-underline focus:no-underline">
+          <div className="flex gap-4 items-center">
+            <Image src="/images/fox.webp" alt="fox" width="64" height="64" />
+            <h1 className="text-4xl text-fox-700 ">새소식</h1>
+          </div>
+        </Link>
+        <UserPageLink />
+      </div>
+      <Notifications />
+    </main>
   )
 }
