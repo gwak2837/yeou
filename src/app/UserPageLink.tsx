@@ -16,8 +16,8 @@ export default function UserPageLink() {
         </>
       ) : (
         <div className="flex gap-4">
-          <Link href="/">회원가입</Link>
-          <Link href="/">로그인</Link>
+          <Link href="/register">회원가입</Link>
+          <Link href="/login">로그인</Link>
         </div>
       )}
     </>

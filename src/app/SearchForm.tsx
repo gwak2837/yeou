@@ -116,7 +116,7 @@ export default function SearchForm() {
       <form onSubmit={handleSubmit(searchProduct)}>
         <div className="m-2">
           <input
-            className="w-full	p-2	border-2 border-slate-300 rounded focus:outline-fox-600 disabled:bg-slate-100 disabled:cursor-not-allowed"
+            className="w-full	p-2	border-2 border-slate-300 rounded focus:outline-fox-600 disabled:bg-slate-100"
             disabled={isFetching}
             placeholder="URL 주소를 입력해주세요"
             {...register('url', {
@@ -131,7 +131,7 @@ export default function SearchForm() {
         </div>
         {errors.url && <div className="text-sm text-red-600 m-2">{errors.url.message}</div>}
         <button
-          className="bg-fox-700  w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 disabled:cursor-not-allowed md:rounded"
+          className="bg-fox-700  w-full p-2 my-4 text-white font-semibold text-2xl disabled:bg-slate-300 md:rounded"
           disabled={!isFetching && !isDirty}
           type="submit"
         >
@@ -154,14 +154,14 @@ export default function SearchForm() {
         <NotificationForm product={(product ?? productPlaceholder) as ProductPlaceholder} />
         <div className="sticky bottom-0 z-30 grid grid-cols-2 gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] ">
           <button
-            className="bg-fox-700/90 text-white rounded font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300 disabled:cursor-not-allowed"
+            className="bg-fox-700/90 text-white rounded font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300"
             disabled={isFetching}
             onClick={shareWithKakaotalk}
           >
             공유하기
           </button>
           <button
-            className="bg-fox-700/90 text-white rounded break-keep font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300 disabled:cursor-not-allowed"
+            className="bg-fox-700/90 text-white rounded break-keep font-semibold text-xl text-center p-3 w-full md:rounded hover:bg-fox-800 active:bg-fox-800 backdrop-blur-sm disabled:bg-slate-300"
             disabled={isFetching}
             onClick={() => window.open(product?.affiliateLink ?? product?.URL, '_blank')}
           >

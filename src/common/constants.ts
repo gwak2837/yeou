@@ -15,13 +15,13 @@ export const NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY = process.env
 export const NEXT_PUBLIC_FLARE_LANE_PROJECT_ID = process.env
   .NEXT_PUBLIC_FLARE_LANE_PROJECT_ID as string
 
-// export const NEXT_PUBLIC_GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string
+export const NEXT_PUBLIC_GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string
 
-// export const NEXT_PUBLIC_NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID as string
+export const NEXT_PUBLIC_NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID as string
 
 export const NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY = process.env
   .NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY as string
-// export const NEXT_PUBLIC_KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string
+export const NEXT_PUBLIC_KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string
 
 if (!NEXT_PUBLIC_BACKEND_URL) throw new Error('`NEXT_PUBLIC_BACKEND_URL` 환경 변수를 설정해주세요.')
 
@@ -31,17 +31,17 @@ if (!NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY)
 if (!NEXT_PUBLIC_FLARE_LANE_PROJECT_ID)
   throw new Error('`NEXT_PUBLIC_FLARE_LANE_PROJECT_ID` 환경 변수를 설정해주세요.')
 
-// if (!NEXT_PUBLIC_GOOGLE_CLIENT_ID)
-//   throw new Error('`NEXT_PUBLIC_GOOGLE_CLIENT_ID` 환경 변수를 설정해주세요.')
+if (!NEXT_PUBLIC_GOOGLE_CLIENT_ID)
+  throw new Error('`NEXT_PUBLIC_GOOGLE_CLIENT_ID` 환경 변수를 설정해주세요.')
 
-// if (!NEXT_PUBLIC_NAVER_CLIENT_ID)
-//   throw new Error('`NEXT_PUBLIC_NAVER_CLIENT_ID` 환경 변수를 설정해주세요.')
+if (!NEXT_PUBLIC_NAVER_CLIENT_ID)
+  throw new Error('`NEXT_PUBLIC_NAVER_CLIENT_ID` 환경 변수를 설정해주세요.')
 
 if (!NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY)
   throw new Error('`NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY` 환경 변수를 설정해주세요.')
 
-// if (!NEXT_PUBLIC_KAKAO_REST_API_KEY)
-//   throw new Error('`NEXT_PUBLIC_KAKAO_REST_API_KEY` 환경 변수를 설정해주세요.')
+if (!NEXT_PUBLIC_KAKAO_REST_API_KEY)
+  throw new Error('`NEXT_PUBLIC_KAKAO_REST_API_KEY` 환경 변수를 설정해주세요.')
 
 // 개별
 export const NEXT_PUBLIC_GA_ID = process.env.NEXT_PUBLIC_GA_ID as string

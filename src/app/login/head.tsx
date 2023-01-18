@@ -1,8 +1,8 @@
 import { CANONICAL_URL } from '../../common/constants'
 
 export default function LoginHead() {
-  const title = '나의 새소식'
-  const description = '가격 변동 알리미'
+  const title = '로그인 - 새소식'
+  const description = '새소식에서 여러 사이트 상품 관련 알림을 받아보세요'
 
   return (
     <>

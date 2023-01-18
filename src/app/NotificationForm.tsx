@@ -308,7 +308,7 @@ function NotificationForm({ product }: Props) {
 
       <div className="p-2">
         <button
-          className="bg-fox-700 rounded p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300 disabled:cursor-not-allowed"
+          className="bg-fox-700 rounded p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300"
           disabled={isPlaceholder || !isDirty || isSubscriptionLoading}
           type="submit"
         >
