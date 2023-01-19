@@ -9,7 +9,7 @@ export default function LoginPage() {
     <>
       <LoginForm />
 
-      <h5 className="text-slate-700 text-center	mt-12 mb-8">이미 SNS 계정을 연동했다면</h5>
+      <h5 className="text-slate-700 text-center	mt-16 mb-8">이미 SNS 계정을 연동했다면</h5>
 
       <button
         className="mx-auto my-4 w-full max-w-screen-sm flex justify-center items-center gap-2 rounded-xl p-4 bg-[#fee500] text-black/90 hover:bg-[#ecd400] focus:bg-[#ecd400]"

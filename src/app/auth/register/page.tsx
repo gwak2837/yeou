@@ -9,7 +9,9 @@ import RegisterForm from './RegisterForm'
 export default function RegisterPage() {
   return (
     <>
-      <h5 className="text-slate-700 text-center my-8">SNS 계정이 있다면</h5>
+      <RegisterForm />
+
+      <h5 className="text-slate-700 text-center mt-16 mb-8">SNS 계정이 있다면</h5>
 
       <button
         className="mx-auto my-4 w-full max-w-screen-sm flex justify-center items-center gap-2 rounded-xl p-4 bg-[#fee500] text-black/90 hover:bg-[#ecd400] focus:bg-[#ecd400]"
@@ -33,10 +35,6 @@ export default function RegisterPage() {
         <GoogleLogo width="1.5rem" />
         Google 계정으로 시작하기
       </button>
-
-      <h5 className="text-slate-700 text-center mt-12 mb-8">또는 직접 가입하기</h5>
-
-      <RegisterForm />
     </>
   )
 }

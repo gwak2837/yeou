@@ -16,6 +16,10 @@ export default function RegisterForm() {
         />
         <input
           className="block mx-auto my-4 w-full max-w-screen-sm border p-3"
+          placeholder="비밀번호 확인"
+        />
+        <input
+          className="block mx-auto my-4 w-full max-w-screen-sm border p-3"
           placeholder="이메일"
         />
         <input
