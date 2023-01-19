@@ -8,14 +8,13 @@ import toast from 'react-hot-toast'
 import LoginLink from '../../components/LoginLink'
 
 export default function OAuthPage() {
+  const router = useRouter()
+  const queryClient = useQueryClient()
   const searchParams = useSearchParams()
 
   const jwt = searchParams.get('jwt')
   const isExpired = searchParams.get('isExpired')
   const error = searchParams.get('error')
-
-  const router = useRouter()
-  const queryClient = useQueryClient()
 
   // OAuth callback 처리
   useEffect(() => {
@@ -56,15 +55,19 @@ export default function OAuthPage() {
 
   return (
     <main className="">
-      <div className="">{error ? formatError(error) : '소셜 로그인 중...'}</div>
+      <div className="text-center p-8">{error ? formatError(error) : '소셜 로그인 중...'}</div>
     </main>
   )
 }
 
 function formatError(error: string) {
   switch (error) {
+    case 'not-google-user':
+      return 'Google 계정으로 가입한 적이 없습니다'
     case 'not-kakao-user':
       return '카카오 계정으로 가입한 적이 없습니다'
+    case 'not-naver-user':
+      return '네이버 계정으로 가입한 적이 없습니다'
     default:
       return '확인되지 않은 오류입니다'
   }
