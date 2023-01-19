@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
-import { localStorage, sessionStorage } from '../../common/constants'
 import LoginLink from '../../components/LoginLink'
 
 export default function OAuthPage() {

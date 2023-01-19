@@ -65,6 +65,3 @@ export const CANONICAL_URL =
     : NEXT_PUBLIC_VERCEL_ENV === 'preview'
     ? `https://${NEXT_PUBLIC_VERCEL_URL}`
     : 'http://localhost:3000'
-
-export const localStorage = globalThis.localStorage
-export const sessionStorage = globalThis.sessionStorage

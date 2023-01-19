@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY } from '../common/constants'
 import { bootChanneltalk } from '../components/ChannelTalk'
@@ -31,8 +31,8 @@ export default function UserPageLink() {
         </>
       ) : (
         <>
-          <Link href="/register">회원가입</Link>
-          <Link href="/login">로그인</Link>
+          <Link href="/auth/register">회원가입</Link>
+          <Link href="/auth/login">로그인</Link>
         </>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { CANONICAL_URL } from '../../common/constants'
+import { CANONICAL_URL } from '../../../common/constants'
 
 export default function LoginHead() {
   const title = '로그인 - 새소식'

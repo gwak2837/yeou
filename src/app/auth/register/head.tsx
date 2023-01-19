@@ -1,7 +1,7 @@
-import { CANONICAL_URL } from '../../common/constants'
+import { CANONICAL_URL } from '../../../common/constants'
 
 export default function RegisterHead() {
-  const title = '새소식 가입하기'
+  const title = '가입하기 - 새소식'
   const description = '새소식에 가입해서 가격 변동 알림을 받아보세요'
 
   return (

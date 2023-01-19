@@ -5,7 +5,7 @@ import {
   NEXT_PUBLIC_GOOGLE_CLIENT_ID,
   NEXT_PUBLIC_KAKAO_REST_API_KEY,
   NEXT_PUBLIC_NAVER_CLIENT_ID,
-} from '../../common/constants'
+} from '../../../common/constants'
 
 export function goToKakaoLoginPage() {
   window.location.replace(
