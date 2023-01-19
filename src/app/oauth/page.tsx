@@ -64,8 +64,8 @@ export default function OAuthPage() {
 
 function formatError(error: string) {
   switch (error) {
-    case '':
-      return ''
+    case 'not-kakao-user':
+      return '카카오 계정으로 가입한 적이 없습니다'
     default:
       return '확인되지 않은 오류입니다'
   }

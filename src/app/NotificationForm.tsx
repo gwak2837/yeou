@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ChangeEvent, memo, useRef, useState } from 'react'
+import { ChangeEvent, memo, useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { NumericFormat } from 'react-number-format'
@@ -53,6 +53,15 @@ function NotificationForm({ product }: Props) {
       canBuy: condition?.canBuy ?? false,
     },
   })
+
+  useEffect(() => {
+    reset({
+      prices: condition?.prices ?? [],
+      hasCardDiscount: condition?.hasCardDiscount ?? false,
+      hasCouponDiscount: condition?.hasCouponDiscount ?? false,
+      canBuy: condition?.canBuy ?? false,
+    })
+  }, [condition, reset])
 
   const setValueDirty = (
     name: Parameters<typeof setValue>[0],
@@ -110,8 +119,6 @@ function NotificationForm({ product }: Props) {
     setNotificationType(e.target.value)
 
     switch (e.target.value) {
-      case 'price':
-        break
       case 'card-discount':
         setValueDirty('hasCardDiscount', true)
         break
@@ -129,7 +136,7 @@ function NotificationForm({ product }: Props) {
   // Toggle notification condition
   const queryClient = useQueryClient()
 
-  const { isLoading: isSubscriptionLoading, mutate } = useMutation<any, any, any>({
+  const { isLoading, mutate } = useMutation<any, any, any>({
     mutationFn: ({ productId, condition }) =>
       fetchWithJWT(`/product/${productId}/subscribe`, {
         method: 'POST',
@@ -167,7 +174,11 @@ function NotificationForm({ product }: Props) {
   }
 
   // Style
-  const isPlaceholderStyle = isPlaceholder ? 'border-slate-200 bg-slate-50' : 'border-transparent'
+  const isPlaceholderStyle = isPlaceholder
+    ? 'border-slate-200 bg-slate-50'
+    : isLoading
+    ? 'animate-[skeleton_2s_ease_infinite,skeletonBg_2s_ease_infinite]'
+    : 'border-transparent'
 
   return (
     <form
@@ -306,18 +317,16 @@ function NotificationForm({ product }: Props) {
         </ul>
       )}
 
-      <div className="p-2">
-        <button
-          className="bg-fox-700 rounded p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300"
-          disabled={isPlaceholder || !isDirty || isSubscriptionLoading}
-          type="submit"
-        >
-          <div className="flex gap-2 justify-center items-center">
-            {isSubscriptionLoading && <LoadingSpinner />}
-            <div>{isConditionEmpty ? '알림끊기' : '알림받기'}</div>
-          </div>
-        </button>
-      </div>
+      <button
+        className="bg-fox-700 rounded p-2 w-full text-white font-semibold text-xl disabled:bg-slate-300"
+        disabled={isPlaceholder || !isDirty || isLoading}
+        type="submit"
+      >
+        <div className="flex gap-2 justify-center items-center">
+          {isLoading && <LoadingSpinner />}
+          <div>{isConditionEmpty ? '알림끊기' : '알림받기'}</div>
+        </div>
+      </button>
     </form>
   )
 }

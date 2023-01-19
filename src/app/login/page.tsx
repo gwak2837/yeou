@@ -4,9 +4,8 @@ import Link from 'next/link'
 import GoogleLogo from '../../svgs/google-logo.svg'
 import KakaoLogo from '../../svgs/kakao-logo.svg'
 import NaverLogo from '../../svgs/naver-logo.svg'
-import { goToGoogleLoginPage, goToKakaoLoginPage, goToNaverLoginPage } from './a'
-import AutoLoginCheckbox from './AutoLoginCheckbox'
 import LoginForm from './LoginForm'
+import { goToGoogleLoginPage, goToKakaoLoginPage, goToNaverLoginPage } from './oauth'
 
 export default function LoginPage() {
   return (
