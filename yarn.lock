@@ -10538,6 +10538,8 @@ __metadata:
   dependenciesMeta:
     next@13.0.4:
       unplugged: true
+    next@13.0.7:
+      unplugged: true
   languageName: unknown
   linkType: soft
 

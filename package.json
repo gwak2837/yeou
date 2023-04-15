@@ -15,6 +15,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "clean": "rm -rf .yarn/cache .yarn/unplugged .yarn/install-state.gz out .pnp.*",
     "format": "prettier . --write",
     "test": "jest",
     "postinstall": "husky install"
@@ -64,6 +65,9 @@
   "dependenciesMeta": {
     "next@13.0.4": {
       "unplugged": true
+    },
+    "next@13.0.7": {
+      "unplugged": true
     }
   },
   "private": true,
@@ -75,5 +79,5 @@
     "not IE 11",
     "maintained node versions"
   ],
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@3.3.1"
 }
